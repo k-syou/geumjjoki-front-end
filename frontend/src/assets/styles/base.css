@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #212121;
+  --color-gray-900: #111111;
+  --color-icy-blue-700: #0077CC;
+  --color-icy-blue-500: #0095FF;
+  --color-icy-blue-300: #99D6FF;
+  --color-icy-blue-100: #E6F2FF;
+}
+
+/* 미리 클래스를 생성해두고 사용 */
+@source inline("{hover:,focus:,active:,}{bg,text,border}-{gray,icy-blue}-{50,{100..900..100},950}");
+@source inline("{hover:,focus:,active:,}{bg,text,border}-{white,black}");
+
+
+.component-test {
+  @apply bg-gray-100;
+}
