@@ -23,7 +23,7 @@ onMounted(() => {
       // 토큰 저장
       localStorage.removeItem('access_token'); // 기존 토큰 제거
       localStorage.setItem('access_token', token);
-      console.log('카카오 로그인: 토큰이 저장되었습니다:', token);
+      console.log('토큰이 저장되었습니다:', token);
       console.log('저장된 토큰 확인:', localStorage.getItem('access_token'));
 
       // 메인 페이지로 리디렉션
