@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+/* 미리 클래스를 생성해두고 사용 */
+@source inline("{hover:,focus:,active:,}{bg,text,border}-{gray,icy-blue}-{50,{100..900..100},950}");
+@source inline("{hover:,focus:,active:,}{bg,text,border}-{white,black}");
+@source inline("{p,m}{x,y,t,r,b,l,s,e,}-{0..10}");
+@source inline("{font}-{display,body}");
+
+.component-test {
+  @apply bg-gray-100;
+}
