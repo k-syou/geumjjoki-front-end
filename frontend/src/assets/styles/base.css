@@ -2,13 +2,14 @@
 @import "./theme.css";
 
 /* 미리 클래스를 생성해두고 사용 */
-@source inline("{hover:,focus:,active:,}{bg,text,border}-{gray,icy-blue}-{50,{100..900..100},950}");
-@source inline("{hover:,focus:,active:,}{bg,text,border}-{white,black}");
+@source inline("{hover:,focus:,active:,}{bg,text,border,fill,stroke}-{gray,icy-blue}-{50,{100..900..100},950}");
+@source inline("{hover:,focus:,active:,}{bg,text,border,fill,stroke}-{white,black}");
 @source inline("{p,m}{x,y,t,r,b,l,s,e,}-{0..10}");
 @source inline("{font}-{display,body}");
+@source inline("{shadow}-{menu-bar}");
 
 .component-test {
-  @apply bg-gray-100;
+  @apply bg-gray-600;
 }
 
 .h1 {
@@ -29,10 +30,18 @@
   line-height: 140%;
 }
 
+.h3.fw-black {
+  font-weight: 900;
+}
+
 .h4 {
   font-size: 1rem;
   font-weight: 600;
   line-height: 160%;
+}
+
+.h4.fw-black {
+  font-weight: 900;
 }
 
 .h5 {
@@ -57,4 +66,8 @@
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 160%;
+}
+
+.caption.fw-bold {
+  font-weight: 700;
 }

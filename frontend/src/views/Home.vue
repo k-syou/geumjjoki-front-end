@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <h1>Home</h1>
-    <p class="text-red-500">Hello World</p>
-    <RouterLink to="/main">Main</RouterLink>
+  <div class="flex flex-col items-center h-screen bg-gray-200">
+    <h1 class="h1">홈</h1>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { RouterLink } from 'vue-router'
 </script>
 
-<style>
-
-</style>
+<style></style>
