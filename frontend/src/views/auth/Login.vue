@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#fafafa] flex flex-col">
+  <div class="bg-gray-200 flex flex-col h-screen">
 
     <!-- 로고 -->
     <div id="logo" class="flex justify-center items-center w-[280px] h-[280px] mx-auto mt-4">
