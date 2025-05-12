@@ -10,45 +10,20 @@
 
   <div class="flex flex-col gap-4 p-4 justify-center items-center">
     <!-- 회원가입 폼 -->
-    <form action="http://localhost:8000/api/v1/auth/email-signup/" method="POST" class="w-[290px] mb-2" @submit="validateForm">
+    <form action="http://localhost:8000/api/v1/auth/email-signup/" method="POST" class="w-[290px] mb-2"
+      @submit="validateForm">
       <div class="mb-4">
-        <input
-          name="email"
-          v-model="email"
-          type="email"
-          placeholder="이메일"
-          class="w-full p-3 border rounded-lg mb-2"
-          required
-        />
-        <input
-          name="password"
-          v-model="password"
-          type="password"
-          placeholder="비밀번호"
-          class="w-full p-3 border rounded-lg mb-2"
-          required
-        />
-        <input
-          v-model="passwordConfirm"
-          type="password"
-          placeholder="비밀번호 확인"
-          class="w-full p-3 border rounded-lg"
-          required
-        />
+        <input name="email" v-model="email" type="email" placeholder="이메일" class="w-full p-3 border rounded-lg mb-2"
+          required />
+        <input name="password" v-model="password" type="password" placeholder="비밀번호"
+          class="w-full p-3 border rounded-lg mb-2" required />
+        <input v-model="passwordConfirm" type="password" placeholder="비밀번호 확인" class="w-full p-3 border rounded-lg"
+          required />
         <!-- username -->
-        <input
-          name="username"
-          v-model="username"
-          type="text"
-          placeholder="이름"
-          class="w-full p-3 border rounded-lg mb-2"
-        />
+        <input name="username" v-model="username" type="text" placeholder="이름"
+          class="w-full p-3 border rounded-lg mb-2" />
       </div>
-      <button
-        type="submit"
-        class="w-full p-3 bg-icy-blue-500 text-white rounded-lg mb-2"
-        :disabled="!isFormValid"
-      >
+      <button type="submit" class="w-full p-3 bg-icy-blue-500 text-white rounded-lg mb-2" :disabled="!isFormValid">
         회원가입
       </button>
     </form>
@@ -74,10 +49,10 @@ const username = ref('');
 
 const isFormValid = computed(() => {
   return email.value &&
-         username.value &&
-         password.value &&
-         passwordConfirm.value &&
-         password.value === passwordConfirm.value;
+    username.value &&
+    password.value &&
+    passwordConfirm.value &&
+    password.value === passwordConfirm.value;
 });
 
 const validateForm = (event) => {
