@@ -1,5 +1,5 @@
 @theme {
-  --spacing: 4px;
+  --spacing: 0.25rem;
 
   --color-*: initial;
   --color-black: #000000;

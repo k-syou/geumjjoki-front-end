@@ -1,8 +1,8 @@
 import MobileLayout from '@/layouts/MobileLayout.vue'
-import LoginView from '@/views/auth/LoginView.vue'
-import SignupView from '@/views/auth/SignupView.vue'
-import KakaoCallbackView from '@/views/auth/KakaoCallbackView.vue'
-import EmailCallbackView from '@/views/auth/EmailCallbackView.vue'
+import LoginView from '@/views/auth/Login.vue'
+import SignupView from '@/views/auth/Signup.vue'
+import KakaoCallbackView from '@/views/auth/KakaoCallback.vue'
+import EmailCallbackView from '@/views/auth/EmailCallback.vue'
 
 export const authRoutes = [
   {
