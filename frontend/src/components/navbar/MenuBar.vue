@@ -43,12 +43,12 @@
 import { ref, watch } from 'vue';
 import MenuIcon from './MenuIcon.vue';
 import { useRouter, useRoute } from 'vue-router';
-import MyPageIcon from '@/assets/icon/MenuMyIcon.svg';
-import ArticleIcon from '@/assets/icon/MenuArticleIcon.svg';
-import ChallengeIcon from '@/assets/icon/MenuChallengeIcon.svg';
-import HomeIcon from '@/assets/icon/MenuHomeIcon.svg';
-import RewardIcon from '@/assets/icon/MenuRewardIcon.svg';
-import ExpenseIcon from '@/assets/icon/MenuExpenseIcon.svg';
+import MyPageIcon from '@/assets/icons/MenuMyIcon.svg';
+import ArticleIcon from '@/assets/icons/MenuArticleIcon.svg';
+import ChallengeIcon from '@/assets/icons/MenuChallengeIcon.svg';
+import HomeIcon from '@/assets/icons/MenuHomeIcon.svg';
+import RewardIcon from '@/assets/icons/MenuRewardIcon.svg';
+import ExpenseIcon from '@/assets/icons/MenuExpenseIcon.svg';
 import { useAuthStore } from '@/stores/auth';
 
 const actives = ref([false, false, true, false, false, false]);
@@ -76,7 +76,7 @@ const pathToIndex: Record<string, number> = {
 };
 
 const link: Record<number, string> = {
-  0: '/my',
+  0: '/user',
   1: '/expense',
   2: '/',
   3: '/reward',

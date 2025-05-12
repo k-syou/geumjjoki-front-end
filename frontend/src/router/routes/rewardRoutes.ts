@@ -1,11 +1,11 @@
 import MobileLayout from '@/layouts/MobileLayout.vue'
-import RewardPage from '@/views/RewardPage.vue'
+import RewardView from '@/views/RewardView.vue'
 
 export const rewardRoutes = [
   {
     path: '/reward',
     name: 'reward',
-    component: RewardPage,
+    component: RewardView,
     meta: {
       layout: MobileLayout,
     },
