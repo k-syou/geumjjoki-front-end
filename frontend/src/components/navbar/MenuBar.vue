@@ -1,40 +1,12 @@
 <template>
   <div class="absolute bottom-0 left-0 right-0 flex flex-row items-center  rounded-t-4xl bg-gray-200 py-0.5 px-5 gap-2 justify-center shadow-menu-bar">
-    <MenuIcon :variant="actives[0]" @click="handleClick(0)">
+    <MenuIcon v-for="(menu, index) in menus" :key="index" :variant="actives[index]" @click="handleClick(index)">
       <template #icon>
-        <MyPageIcon />
+        <component :is="menu.icon" />
       </template>
-      <template #text>마이</template>
-    </MenuIcon>
-    <MenuIcon :variant="actives[1]" @click="handleClick(1)">
-      <template #icon>
-        <ExpenseIcon />
+      <template #text>
+        {{ menu.name }}
       </template>
-      <template #text>소비</template>
-    </MenuIcon>
-    <MenuIcon :variant="actives[2]" @click="handleClick(2)">
-      <template #icon>
-        <HomeIcon />
-      </template>
-      <template #text>홈</template>
-    </MenuIcon>
-    <MenuIcon :variant="actives[3]" @click="handleClick(3)">
-      <template #icon>
-        <RewardIcon />
-      </template>
-      <template #text>리워드</template>
-    </MenuIcon>
-    <MenuIcon :variant="actives[4]" @click="handleClick(4)">
-      <template #icon>
-        <ChallengeIcon />
-      </template>
-      <template #text>챌린지</template>
-    </MenuIcon>
-    <MenuIcon :variant="actives[5]" @click="handleClick(5)">
-      <template #icon>
-        <ArticleIcon />
-      </template>
-      <template #text>게시판</template>
     </MenuIcon>
   </div>
 </template>
@@ -43,12 +15,7 @@
 import { ref, watch } from 'vue';
 import MenuIcon from './MenuIcon.vue';
 import { useRouter, useRoute } from 'vue-router';
-import MyPageIcon from '@/assets/icons/MenuMyIcon.svg';
-import ArticleIcon from '@/assets/icons/MenuArticleIcon.svg';
-import ChallengeIcon from '@/assets/icons/MenuChallengeIcon.svg';
-import HomeIcon from '@/assets/icons/MenuHomeIcon.svg';
-import RewardIcon from '@/assets/icons/MenuRewardIcon.svg';
-import ExpenseIcon from '@/assets/icons/MenuExpenseIcon.svg';
+import { MenuIcons } from '@/components/common/icons';
 import { useAuthStore } from '@/stores/auth';
 
 const actives = ref([false, false, true, false, false, false]);
@@ -75,14 +42,38 @@ const pathToIndex: Record<string, number> = {
   '/article': 5
 };
 
-const link: Record<number, string> = {
-  0: '/user',
-  1: '/expense',
-  2: '/',
-  3: '/reward',
-  4: '/challenge',
-  5: '/article',
-}
+const menus = ref([
+  {
+    name: '마이',
+    icon: MenuIcons.MenuMyIcon,
+    path: 'user'
+  },
+  {
+    name: '소비',
+    icon: MenuIcons.MenuExpenseIcon,
+    path: 'expense'
+  },
+  {
+    name: '홈',
+    icon: MenuIcons.MenuHomeIcon,
+    path: 'home'
+  },
+  {
+    name: '리워드',
+    icon: MenuIcons.MenuRewardIcon,
+    path: 'reward'
+  },
+  {
+    name: '챌린지',
+    icon: MenuIcons.MenuChallengeIcon,
+    path: 'challenge'
+  },
+  {
+    name: '게시판',
+    icon: MenuIcons.MenuArticleIcon,
+    path: 'article'
+  }
+])
 
 // 현재 경로가 변경될 때마다 active 상태 업데이트
 watch(() => route.path, (newPath) => {
@@ -94,8 +85,9 @@ watch(() => route.path, (newPath) => {
 
 const handleClick = (index: number) => {
   actives.value = actives.value.map((_, i) => i === index);
-  router.push(link[index]);
+  router.push({name: menus.value[index].path});
 };
+
 </script>
 
 <style></style>

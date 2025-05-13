@@ -5,6 +5,7 @@ import { challengeRoutes } from './challengeRoutes'
 import { articleRoutes } from './articleRoutes'
 import { rewardRoutes } from './rewardRoutes'
 import { homeRoutes } from './homeRoutes'
+import { errorRoutes } from './errorRoutes'
 
 export const routes = [
   ...homeRoutes,
@@ -14,4 +15,5 @@ export const routes = [
   ...challengeRoutes,
   ...articleRoutes,
   ...rewardRoutes,
+  ...errorRoutes,
 ]

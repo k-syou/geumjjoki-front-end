@@ -9,5 +9,7 @@ export const userPageRoutes = [
     meta: {
       layout: MobileLayout,
     },
+    children: [
+    ],
   },
 ]

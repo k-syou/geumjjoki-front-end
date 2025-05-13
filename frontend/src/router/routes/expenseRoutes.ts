@@ -8,6 +8,7 @@ export const expenseRoutes = [
     component: ExpenseView,
     meta: {
       layout: MobileLayout,
+      title: '지출내역',
     },
   },
 ]
