@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, watch } from 'vue';
+import { ref, watch, markRaw } from 'vue';
 import MenuIcon from './MenuIcon.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { MenuIcons } from '@/components/common/icons';
@@ -45,32 +45,32 @@ const pathToIndex: Record<string, number> = {
 const menus = ref([
   {
     name: '마이',
-    icon: MenuIcons.MenuMyIcon,
+    icon: markRaw(MenuIcons.MenuMyIcon),
     path: 'user'
   },
   {
     name: '소비',
-    icon: MenuIcons.MenuExpenseIcon,
+    icon: markRaw(MenuIcons.MenuExpenseIcon),
     path: 'expense'
   },
   {
     name: '홈',
-    icon: MenuIcons.MenuHomeIcon,
+    icon: markRaw(MenuIcons.MenuHomeIcon),
     path: 'home'
   },
   {
     name: '리워드',
-    icon: MenuIcons.MenuRewardIcon,
+    icon: markRaw(MenuIcons.MenuRewardIcon),
     path: 'reward'
   },
   {
     name: '챌린지',
-    icon: MenuIcons.MenuChallengeIcon,
+    icon: markRaw(MenuIcons.MenuChallengeIcon),
     path: 'challenge'
   },
   {
     name: '게시판',
-    icon: MenuIcons.MenuArticleIcon,
+    icon: markRaw(MenuIcons.MenuArticleIcon),
     path: 'article'
   }
 ])
