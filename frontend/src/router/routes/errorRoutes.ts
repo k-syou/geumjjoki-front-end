@@ -5,6 +5,7 @@ import MobileLayout from '@/layouts/MobileLayout.vue';
 
 export const errorRoutes = [
   {
+    path: '/error',
     component: ErrorView,
     meta: {
       layout: MobileLayout,
