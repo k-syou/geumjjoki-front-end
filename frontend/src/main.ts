@@ -7,7 +7,6 @@ import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
-
 const KAKAO_JAVASCRIPT_KEY = import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY
 
 // Kakao SDK 초기화

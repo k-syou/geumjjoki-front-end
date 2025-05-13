@@ -8,6 +8,8 @@ export const homeRoutes = [
     component: HomeView,
     meta: {
       layout: MobileLayout,
+      // requiresAuth: true,
+      title: '홈',
     },
   },
 ]
