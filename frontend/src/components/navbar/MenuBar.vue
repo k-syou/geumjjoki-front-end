@@ -56,7 +56,7 @@ const menus = ref([
   {
     name: '홈',
     icon: MenuIcons.MenuHomeIcon,
-    path: 'home'
+    path: 'home_01'
   },
   {
     name: '리워드',
