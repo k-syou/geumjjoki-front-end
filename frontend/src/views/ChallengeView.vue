@@ -1,5 +1,5 @@
 <template>
-  <h1 class="h1">챌린지</h1>
+  <router-view />
 </template>
 
 <script setup lang='ts'>
