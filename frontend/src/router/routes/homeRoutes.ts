@@ -6,6 +6,7 @@ import NotFoundPage from '@/components/pages/error/NotFoundPage.vue'
 
 export const homeRoutes = [
   {
+    path: '/',
     component: HomeView,
     meta: {
       layout: MobileLayout,
@@ -14,8 +15,8 @@ export const homeRoutes = [
     },
     children: [
       {
-        path: '/',
-        name: 'home_01',
+        path: '',
+        name: 'home',
         component: Home_01,
       },
     ],

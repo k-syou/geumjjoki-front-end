@@ -9,61 +9,61 @@
 @source inline("{shadow}-{menu-bar}");
 
 .h1 {
-  @apply font-bold;
+  font-weight: 400;
   font-size: 2.5rem;
   line-height: 140%;
 }
 
 .h2 {
-  @apply font-bold;
-  font-size: 1.5rem;
-  line-height: 140%;
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 150%;
 }
 
 .h3 {
-  @apply font-bold;
-  font-size: 1.125rem;
-  line-height: 140%;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 150%;
 }
 
 .h3.fw-black {
-  @apply font-black;
+  font-weight: 900;
 }
 
 .h4 {
-  @apply font-bold;
+  font-weight: 600;
   font-size: 1rem;
-  line-height: 160%;
+  line-height: 150%;
 }
 
 .h4.fw-black {
-  @apply font-black;
+  font-weight: 900;
 }
 
 .h5 {
-  @apply font-bold;
-  font-size: 0.875rem;
-  line-height: 160%;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 120%;
 }
 
 .h6 {
-  @apply font-bold;
-  font-size: 0.75rem;
+  font-weight: 400;
+  font-size: 0.625rem;
   line-height: 160%;
 }
 
 .p1 {
-  @apply font-normal;
+  font-weight: 400;
   font-size: 1rem;
-  line-height: 160%;
+  line-height: 150%;
 }
 
 .caption {
-  @apply font-normal;
-  font-size: 0.875rem;
-  line-height: 160%;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 120%;
 }
 
 .caption.fw-bold {
-  @apply font-bold;
+  font-weight: 600;
 }
