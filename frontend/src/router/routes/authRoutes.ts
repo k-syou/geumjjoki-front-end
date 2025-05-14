@@ -16,12 +16,12 @@ export const authRoutes = [
     },
     children: [
       {
-        path: '/login',
+        path: 'login',
         name: 'login_01',
         component: Login_01,
       },
       {
-        path: '/login/submit',
+        path: 'login/submit',
         name: 'login_02',
         component: Login_02,
       },

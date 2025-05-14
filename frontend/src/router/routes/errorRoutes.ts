@@ -12,7 +12,7 @@ export const errorRoutes = [
     },
     children: [
       {
-        path: '/unauthorized',
+        path: 'unauthorized',
         name: 'unauthorized',
         component: UnauthorizedPage,
         meta: {
@@ -20,9 +20,12 @@ export const errorRoutes = [
         },
       },
       {
-        path: '/not-found',
+        path: 'not-found',
         name: 'not-found',
         component: NotFoundPage,
+        meta: {
+          errorCode: 404,
+        },
       },
 
     ],

@@ -1,6 +1,7 @@
 <template>
-  <div class="absolute bottom-0 left-0 right-0 flex flex-row items-center  rounded-t-4xl bg-gray-200 py-0.5 px-5 gap-2 justify-center shadow-menu-bar">
-    <MenuIcon v-for="(menu, index) in menus" :key="index" :variant="actives[index]" @click="handleClick(index)">
+  <div
+    class="absolute bottom-0 left-0 right-0 flex flex-row items-center rounded-t-4xl bg-gray-200 py-0.5 px-5 gap-4 justify-center shadow-menu-bar">
+    <MenuIcon v-for="(menu, index) in menus" :key="index" :variant="menu.isActive" @click="handleClick(index)">
       <template #icon>
         <component :is="menu.icon" />
       </template>
@@ -16,76 +17,61 @@ import { ref, watch, markRaw } from 'vue';
 import MenuIcon from './MenuIcon.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { MenuIcons } from '@/components/common/icons';
-import { useAuthStore } from '@/stores/auth';
+import type { Menu } from '@/types/menu';
 
-const actives = ref([false, false, true, false, false, false]);
 const router = useRouter();
 const route = useRoute();
-const authStore = useAuthStore();  // auth 스토어 사용
 
-// const link: Record<number, string> = {
-//   0: authStore.isAuthenticated ? '/my' : '/auth/login',
-//   1: authStore.isAuthenticated ? '/expense' : '/auth/login',
-//   2: '/',
-//   3: authStore.isAuthenticated ? '/reward' : '/auth/login',
-//   4: authStore.isAuthenticated ? '/challenge' : '/auth/login',
-//   5: authStore.isAuthenticated ? '/article' : '/auth/login',
-// }
-
-const pathToIndex: Record<string, number> = {
-  '/my': 0,
-  '/auth/login': 0,
-  '/expense': 1,
-  '/': 2,
-  '/reward': 3,
-  '/challenge': 4,
-  '/article': 5
-};
-
-const menus = ref([
-  {
-    name: '마이',
-    icon: markRaw(MenuIcons.MenuMyIcon),
-    path: 'user'
-  },
+const menus = ref<Menu[]>([
   {
     name: '소비',
     icon: markRaw(MenuIcons.MenuExpenseIcon),
-    path: 'expense'
-  },
-  {
-    name: '홈',
-    icon: markRaw(MenuIcons.MenuHomeIcon),
-    path: 'home'
+    path: { name: 'expense' },
+    isActive: false
   },
   {
     name: '리워드',
     icon: markRaw(MenuIcons.MenuRewardIcon),
-    path: 'reward'
+    path: { name: 'reward' },
+    isActive: false
+  },
+  {
+    name: '홈',
+    icon: markRaw(MenuIcons.MenuHomeIcon),
+    path: { name: 'home' },
+    isActive: false
   },
   {
     name: '챌린지',
     icon: markRaw(MenuIcons.MenuChallengeIcon),
-    path: 'challenge'
+    path: { name: 'challenge' },
+    isActive: false
   },
   {
     name: '게시판',
     icon: markRaw(MenuIcons.MenuArticleIcon),
-    path: 'article'
+    path: { name: 'article' },
+    isActive: false
   }
 ])
 
 // 현재 경로가 변경될 때마다 active 상태 업데이트
-watch(() => route.path, (newPath) => {
-  const activeIndex = pathToIndex[newPath];
-  if (activeIndex !== undefined) {
-    actives.value = actives.value.map((_, index) => index === activeIndex);
+watch(route, () => {
+  const activeIndex = menus.value.findIndex(menu => menu.path.name === route.name);
+  if (activeIndex !== -1) {
+    menus.value.forEach((menu, index) => {
+      if (index === activeIndex) {
+        menu.isActive = true;
+      } else {
+        menu.isActive = false;
+      }
+    });
   }
 }, { immediate: true });
 
 const handleClick = (index: number) => {
-  actives.value = actives.value.map((_, i) => i === index);
-  router.push({name: menus.value[index].path});
+  menus.value[index].isActive = true;
+  router.push(menus.value[index].path);
 };
 
 </script>
