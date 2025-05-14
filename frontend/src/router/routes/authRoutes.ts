@@ -1,31 +1,17 @@
 import MobileLayout from '@/layouts/MobileLayout.vue'
-import LoginView from '@/views/auth/LoginView.vue'
+import LoginView from '@/views/auth/Login.vue'
 import SignupView from '@/views/auth/Signup.vue'
 import KakaoCallbackView from '@/views/auth/KakaoCallback.vue'
 import EmailCallbackView from '@/views/auth/EmailCallback.vue'
-import Login_01 from '@/components/pages/auth/login/Login_01.vue'
-import Login_02 from '@/components/pages/auth/login/Login_02.vue'
-import MobileAuthLayout from '@/layouts/MobileAuthLayout.vue'
 
 export const authRoutes = [
   {
-    path: '/auth',
+    path: '/auth/login',
+    name: 'login',
     component: LoginView,
     meta: {
-      layout: MobileAuthLayout,
+      layout: MobileLayout,
     },
-    children: [
-      {
-        path: 'login',
-        name: 'login_01',
-        component: Login_01,
-      },
-      {
-        path: 'login/submit',
-        name: 'login_02',
-        component: Login_02,
-      },
-    ],
   },
   {
     path: '/auth/signup',
