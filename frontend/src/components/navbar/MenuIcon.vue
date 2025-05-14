@@ -20,6 +20,7 @@ const iconClass = computed(() => isActive.value ? 'stroke-gold-600' : 'stroke-co
 const textClass = computed(() => isActive.value ? 'text-gold-600' : 'text-cocoa-600');
 
 const emit = defineEmits(['click']);
+
 </script>
 
 <style></style>

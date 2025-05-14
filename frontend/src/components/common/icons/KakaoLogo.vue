@@ -28,6 +28,10 @@ const props = defineProps({
     default: '20'
   }
 })
+<<<<<<< HEAD
+=======
+
+>>>>>>> acc753253ef365e9bec332bdfa25d2e5e4605811
 </script>
 
 <style scoped></style>

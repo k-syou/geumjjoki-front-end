@@ -98,3 +98,12 @@ export function sanitizeHtml(html: string): string {
     .replace(/&lt;a href="([^"]+)" target="_blank" rel="noopener noreferrer"&gt;([^<]+)&lt;\/a&gt;/g,
       (_, url, text) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`);
 }
+
+
+// email 형식 검사
+export function validateEmail(email: string): boolean {
+  // {example}@{example}.{example}
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+

@@ -10,11 +10,15 @@
 
 .h1 {
   font-weight: 400;
+  font-weight: 400;
   font-size: 2.5rem;
   line-height: 140%;
 }
 
 .h2 {
+  font-weight: 400;
+  font-size: 2rem;
+  line-height: 150%;
   font-weight: 400;
   font-size: 2rem;
   line-height: 150%;
@@ -24,23 +28,33 @@
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 150%;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 150%;
 }
 
 .h3.fw-black {
+  font-weight: 900;
   font-weight: 900;
 }
 
 .h4 {
   font-weight: 600;
+  font-weight: 600;
   font-size: 1rem;
+  line-height: 150%;
   line-height: 150%;
 }
 
 .h4.fw-black {
   font-weight: 900;
+  font-weight: 900;
 }
 
 .h5 {
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 120%;
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 120%;
@@ -49,12 +63,16 @@
 .h6 {
   font-weight: 400;
   font-size: 0.625rem;
+  font-weight: 400;
+  font-size: 0.625rem;
   line-height: 160%;
 }
 
 .p1 {
   font-weight: 400;
+  font-weight: 400;
   font-size: 1rem;
+  line-height: 150%;
   line-height: 150%;
 }
 
@@ -62,8 +80,12 @@
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 120%;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 120%;
 }
 
 .caption.fw-bold {
+  font-weight: 600;
   font-weight: 600;
 }
