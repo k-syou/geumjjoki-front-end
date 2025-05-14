@@ -74,6 +74,7 @@ const handleClick = (index: number) => {
   router.push(menus.value[index].path);
 };
 
+
 </script>
 
 <style></style>

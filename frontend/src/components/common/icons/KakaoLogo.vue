@@ -28,6 +28,7 @@ const props = defineProps({
     default: '20'
   }
 })
+
 </script>
 
 <style scoped></style>

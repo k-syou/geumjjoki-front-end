@@ -44,4 +44,5 @@ onMounted(() => {
 .error {
   color: red;
 }
+
 </style>

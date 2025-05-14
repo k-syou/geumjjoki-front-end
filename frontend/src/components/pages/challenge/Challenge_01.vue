@@ -86,6 +86,7 @@ import 'swiper/css';
 
 </script>
 
+
 <style scoped>
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
