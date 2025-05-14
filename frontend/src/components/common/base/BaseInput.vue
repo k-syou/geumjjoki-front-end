@@ -1,10 +1,16 @@
 <template>
-  <input :type="props.type" :class="inputClass" :placeholder="props.placeholder">
+  <input
+    :type="props.type"
+    :value="modelValue"
+    :class="inputClass"
+    :placeholder="props.placeholder"
+    :disabled="props.disabled"
+    @input="updateValue"
+    />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-
 
 const props = defineProps({
   type: {
@@ -20,6 +26,14 @@ const props = defineProps({
     default: 'white',
   },
   placeholder: {
+    type: String,
+    default: '',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  modelValue: {
     type: String,
     default: '',
   },
@@ -45,8 +59,12 @@ const inputClass = computed(() => {
   ]
 })
 
+const emit = defineEmits(['update:modelValue']);
+
+const updateValue = (event: Event) => {
+  emit('update:modelValue', (event.target as HTMLInputElement).value);
+}
+
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
