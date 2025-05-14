@@ -5,14 +5,13 @@ import MobileLayout from '@/layouts/MobileLayout.vue';
 
 export const errorRoutes = [
   {
-    path: '/error',
     component: ErrorView,
     meta: {
       layout: MobileLayout,
     },
     children: [
       {
-        path: 'unauthorized',
+        path: '/unauthorized',
         name: 'unauthorized',
         component: UnauthorizedPage,
         meta: {
@@ -20,12 +19,9 @@ export const errorRoutes = [
         },
       },
       {
-        path: 'not-found',
+        path: '/not-found',
         name: 'not-found',
         component: NotFoundPage,
-        meta: {
-          errorCode: 404,
-        },
       },
 
     ],

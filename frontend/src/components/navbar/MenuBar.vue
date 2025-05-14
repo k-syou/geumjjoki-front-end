@@ -13,65 +13,80 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, watch, markRaw } from 'vue';
+import { ref, watch } from 'vue';
 import MenuIcon from './MenuIcon.vue';
 import { useRouter, useRoute } from 'vue-router';
 import { MenuIcons } from '@/components/common/icons';
-import type { Menu } from '@/types/menu';
+import { useAuthStore } from '@/stores/auth';
 
+const actives = ref([false, false, true, false, false, false]);
 const router = useRouter();
 const route = useRoute();
+const authStore = useAuthStore();  // auth 스토어 사용
 
-const menus = ref<Menu[]>([
+// const link: Record<number, string> = {
+//   0: authStore.isAuthenticated ? '/my' : '/auth/login',
+//   1: authStore.isAuthenticated ? '/expense' : '/auth/login',
+//   2: '/',
+//   3: authStore.isAuthenticated ? '/reward' : '/auth/login',
+//   4: authStore.isAuthenticated ? '/challenge' : '/auth/login',
+//   5: authStore.isAuthenticated ? '/article' : '/auth/login',
+// }
+
+const pathToIndex: Record<string, number> = {
+  '/my': 0,
+  '/auth/login': 0,
+  '/expense': 1,
+  '/': 2,
+  '/reward': 3,
+  '/challenge': 4,
+  '/article': 5
+};
+
+const menus = ref([
   {
-    name: '소비',
-    icon: markRaw(MenuIcons.MenuExpenseIcon),
-    path: { name: 'expense' },
-    isActive: false
+    name: '마이',
+    icon: MenuIcons.MenuMyIcon,
+    path: 'user'
   },
   {
-    name: '리워드',
-    icon: markRaw(MenuIcons.MenuRewardIcon),
-    path: { name: 'reward' },
-    isActive: false
+    name: '소비',
+    icon: MenuIcons.MenuExpenseIcon,
+    path: 'expense'
   },
   {
     name: '홈',
-    icon: markRaw(MenuIcons.MenuHomeIcon),
-    path: { name: 'home' },
-    isActive: false
+    icon: MenuIcons.MenuHomeIcon,
+    path: 'home_01'
+  },
+  {
+    name: '리워드',
+    icon: MenuIcons.MenuRewardIcon,
+    path: 'reward'
   },
   {
     name: '챌린지',
-    icon: markRaw(MenuIcons.MenuChallengeIcon),
-    path: { name: 'challenge' },
-    isActive: false
+    icon: MenuIcons.MenuChallengeIcon,
+    path: 'challenge'
   },
   {
     name: '게시판',
-    icon: markRaw(MenuIcons.MenuArticleIcon),
-    path: { name: 'article' },
-    isActive: false
+    icon: MenuIcons.MenuArticleIcon,
+    path: 'article'
   }
 ])
 
 // 현재 경로가 변경될 때마다 active 상태 업데이트
-watch(route, () => {
-  const activeIndex = menus.value.findIndex(menu => menu.path.name === route.name);
-  if (activeIndex !== -1) {
-    menus.value.forEach((menu, index) => {
-      if (index === activeIndex) {
-        menu.isActive = true;
-      } else {
-        menu.isActive = false;
-      }
-    });
+watch(() => route.path, (newPath) => {
+  const activeIndex = pathToIndex[newPath];
+  if (activeIndex !== undefined) {
+    actives.value = actives.value.map((_, index) => index === activeIndex);
   }
 }, { immediate: true });
 
 const handleClick = (index: number) => {
-  menus.value[index].isActive = true;
-  router.push(menus.value[index].path);
+  actives.value = actives.value.map((_, i) => i === index);
+  router.push({name: menus.value[index].path});
 };
 
 </script>
