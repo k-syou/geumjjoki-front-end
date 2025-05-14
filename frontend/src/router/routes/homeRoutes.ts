@@ -1,5 +1,6 @@
 import HomeView from '@/views/HomeView.vue'
 import MobileLayout from '@/layouts/MobileLayout.vue'
+import Home_01 from '@/components/pages/home/Home_01.vue'
 
 export const homeRoutes = [
   {

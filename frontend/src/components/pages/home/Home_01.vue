@@ -16,7 +16,7 @@
     <div class="mx-auto w-fit flex flex-col gap-5">
       <h3 class="w-full h-12 h3 fw-black"><span class="h2">User</span> 님 반갑습니다.</h3>
       <div class="w-41 h-7 px-3 bg-gold-200 rounded-2xl flex items-center justify-between">
-        <img src="@/assets/images/point.png" alt="">
+        <img src="@/assets/images/point.png" alt="point">
         <p class="block p1">1200P</p>
       </div>
       <!-- 카드 2개 -->
@@ -42,10 +42,11 @@
       <h1 class="h3">리워드를 교환하세요</h1>
       <div class="flex items-center ">
         <h4 class="h4 fw-black text-gray-600"> 더보기 </h4>
-        <RightArrow/>
+        <RightArrow />
       </div>
     </div>
     <!-- 캐러셀 -->
+
     <div class="w-fit items-center mt-3">
       <div class="flex gap-4">
         <div v-for="(reward, index) in rewards" :key="index">
@@ -58,15 +59,15 @@
     </div>
 
     <!-- 챌린지 -->
-    <div class="w-full h-6 mb-3 flex items-center justify-between mt-10">
+    <div class="w-full h-6 mb-3 flex items-center justify-between mt-20">
       <h1 class="h3">챌린지를 도전하세요</h1>
       <div class="flex items-center ">
         <h4 class="h4 fw-black text-gray-600"> 더보기 </h4>
-        <RightArrow/>
+        <RightArrow />
       </div>
     </div>
     <!-- 캐러셀 -->
-    <div class="w-fit items-center mt-3">
+    <div class="w-full overflow-x-hidden items-center mt-3">
       <div class="flex gap-4">
         <div v-for="(challenge, index) in challenges" :key="index">
           <div class="h-30 w-43 bg-gray-300 rounded-3xl px-5 py-4 flex-col gap-1">
@@ -90,12 +91,12 @@ import ChallengeIcon from '@/components/common/icons/ChallengeIcon.vue'
 import HambergerIcon from '@/components/common/icons/HambergerIcon.vue'
 import RightArrow from '@/components/common/icons/RightArrow.vue'
 import GifticonImg from '@/assets/images/gifticon1.png'
-
+import { Swiper, SwiperSlide } from 'swiper/vue';
 const rewards = ref([
-  { category: '카테고리 1', name: "상품명 1", point: '2000P',image:GifticonImg },
-  { category: '카테고리 2', name: "상품명 2", point: '1000P',image:GifticonImg },
-  { category: '카테고리 3', name: "상품명 3", point: '3000P',image:GifticonImg },
-  { category: '카테고리 4', name: "상품명 4", point: '4000P',image:GifticonImg }
+  { category: '카테고리 1', name: "상품명 1", point: '2000P', image: GifticonImg },
+  { category: '카테고리 2', name: "상품명 2", point: '1000P', image: GifticonImg },
+  { category: '카테고리 3', name: "상품명 3", point: '3000P', image: GifticonImg },
+  { category: '카테고리 4', name: "상품명 4", point: '4000P', image: GifticonImg }
 ])
 
 const challenges = ref([
