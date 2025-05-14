@@ -12,5 +12,6 @@ const useUser = () => {
   }
 
   return { getUser };
+
 }
 

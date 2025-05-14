@@ -1,9 +1,12 @@
 <template>
   <i :class="`fill-${props.color}`">
-    <svg :width="props.width" :height="props.height" :viewBox="`0 0 ${props.width} ${props.height}`" fill="inherit"
-      xmlns="http://www.w3.org/2000/svg">
-      <path d="M0.351562 1.25V18.75H7.08461V9.99461L12.9437 18.75H19.6875V1.25H12.9437V9.99461L7.08461 1.25H0.351562Z"
-        fill="inherit" />
+    <svg :width="props.width" :height="props.height" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg"
+      fill="inherit">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path fill="inherit" d="M9 32V480H181.366V255.862L331.358 480H504V32H331.358V255.862L181.366 32H9Z"></path>
+      </g>
     </svg>
   </i>
 </template>
@@ -23,6 +26,7 @@ const props = defineProps({
     default: '20'
   }
 })
+
 </script>
 
 <style scoped></style>
