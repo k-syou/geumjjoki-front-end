@@ -47,8 +47,15 @@
 
   --color-red-600: #FF0000;
 
-  --font-display: 'Pretendard Variable', sans-serif;
-  --font-body: 'Pretendard Variable', sans-serif;
+  --font-display: 'PretendardVariable', sans-serif;
+  --font-body: 'PretendardVariable', sans-serif;
 
   --shadow-menu-bar: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+}
+
+@font-face {
+  font-family: 'PretendardVariable';
+  src: url('../fonts/PretendardVariable.ttf') format('truetype');
+  /* font-weight: 400; */
+  font-style: normal;
 }

@@ -1,8 +1,8 @@
 <template>
-  <main class="min-h-[900px] mx-auto max-w-md bg-gray-200 relative flex flex-col items-center pb-16">
+  <div class="h-screen mx-auto max-w-md bg-gray-200 relative flex flex-col items-center pb-16">
     <slot />
     <MenuBar />
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">
