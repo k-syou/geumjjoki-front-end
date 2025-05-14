@@ -27,7 +27,7 @@ onMounted(() => {
       console.log('저장된 토큰 확인:', localStorage.getItem('access_token'));
 
       // 메인 페이지로 리디렉션
-      router.push({ name: 'login_02' });
+      router.push('/main');
     } catch (e) {
       console.error('토큰 저장 중 오류:', e);
       error.value = '토큰 저장 중 오류가 발생했습니다.';

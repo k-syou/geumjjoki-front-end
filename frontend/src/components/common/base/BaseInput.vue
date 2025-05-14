@@ -1,5 +1,5 @@
 <template>
-  <input :type="props.type" :class="inputClass" :placeholder="props.placeholder" :disabled="props.disabled">
+  <input :type="props.type" :class="inputClass" :placeholder="props.placeholder">
 </template>
 
 <script setup lang="ts">
@@ -23,10 +23,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
 })
 
 let variantClass: string;
@@ -35,8 +31,8 @@ if (props.variant === 'white') {
   variantClass = 'bg-white text-black'
 } else if (props.variant === 'gray') {
   variantClass = 'bg-gray-300 text-black'
-} else if (props.variant === 'light-gray') {
-  variantClass = 'bg-gray-100 text-black'
+} else if (props.variant === 'dark-gray') {
+  variantClass = 'bg-gray-600 text-white'
 }
 
 const inputClass = computed(() => {
@@ -45,7 +41,7 @@ const inputClass = computed(() => {
     `py-3 px-4`,
     `rounded-lg`,
     variantClass,
-    `border border-gray-600 focus:outline-none`,
+    `border border-gray-600`,
   ]
 })
 
