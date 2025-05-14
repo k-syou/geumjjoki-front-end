@@ -1,12 +1,8 @@
 <template>
-  <h1 class="h1">소비</h1>
-  <div class="bg-black">
-    <NaverLogo color="minty-500"/>
-  </div>
+  <router-view />
 </template>
 
 <script setup lang='ts'>
-import NaverLogo from '@/components/common/icons/NaverLogo.vue';
 </script>
 
-<style></style>
+<style scoped></style>
