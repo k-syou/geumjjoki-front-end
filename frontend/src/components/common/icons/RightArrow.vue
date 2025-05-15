@@ -12,15 +12,15 @@
 const props = defineProps({
   color: {
     type: String,
-    default: 'gray-600'
+    default: 'cocoa-600'
   },
   width: {
     type: String,
-    default: '16'
+    default: '8'
   },
   height: {
     type: String,
-    default: '16'
+    default: '8'
   }
 })
 </script>

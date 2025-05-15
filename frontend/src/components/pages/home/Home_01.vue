@@ -8,7 +8,7 @@
         <h3 class="h3 fw-black text-gold-600">GEUMJJOKI</h3>
       </div>
       <div>
-        <HambergerIcon />
+        <HambergerIcon @click = 'goHome2' />
       </div>
     </div>
 
@@ -91,7 +91,14 @@ import ChallengeIcon from '@/components/common/icons/ChallengeIcon.vue'
 import HambergerIcon from '@/components/common/icons/HambergerIcon.vue'
 import RightArrow from '@/components/common/icons/RightArrow.vue'
 import GifticonImg from '@/assets/images/gifticon1.png'
-import { Swiper, SwiperSlide } from 'swiper/vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goHome2 = () => {
+  router.push({name:'home2'})
+}
+
 const rewards = ref([
   { category: '카테고리 1', name: "상품명 1", point: '2000P', image: GifticonImg },
   { category: '카테고리 2', name: "상품명 2", point: '1000P', image: GifticonImg },
