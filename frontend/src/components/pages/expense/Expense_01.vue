@@ -10,7 +10,12 @@
       </div>
       <div class="w-full rounded-3xl bg-gold-200 px-4.5 py-5 text-cocoa-600 h4">
         <p>나의 1월 소비는</p>
-        <p>지난달 대비 <span class="text-red-600">▲120,000원</span> 늘었어요</p>
+        <p>지난달 대비
+          <span v-if="isIncrease" :class="{'text-red-600': isIncrease}">▲120,000원</span>
+          <span v-else :class="{'text-naver-green-200': !isIncrease}">▼120,000원</span>
+          <span v-if="isIncrease"> 늘었어요</span>
+          <span v-else> 줄었어요</span>
+        </p>
       </div>
     </div>
 
@@ -61,6 +66,8 @@ import NavBar from '@/components/navbar/NavBar.vue'
 import UpIcon from '@/components/common/icons/UpIcon.vue'
 
 import { ref } from 'vue'
+
+const isIncrease = ref(false)
 
 const categories = ref([
   { id: 1, title: '카테고리 1', amount: 100000 },
