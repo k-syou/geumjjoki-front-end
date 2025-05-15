@@ -11,12 +11,26 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-
+import { useUserStore } from '@/stores/userStore'
+import { onMounted } from 'vue'
 const router = useRouter()
 
-setTimeout(() => {
-  router.push({ name: 'home'})
-}, 2000)
+const userStore = useUserStore()
+
+onMounted(async () => {
+  const token = localStorage.getItem('access_token');
+  console.log('현재 저장된 토큰:', token);
+  try {
+    await userStore.fetchUser();
+    if (userStore.user) {
+      setTimeout(() => {
+        router.push({ name: 'home'})
+      }, 2000)
+    }
+  } catch (error) {
+    console.error('사용자 정보를 가져오는데 실패하였습니다:', error);
+  }
+})
 </script>
 
 <style scoped>
