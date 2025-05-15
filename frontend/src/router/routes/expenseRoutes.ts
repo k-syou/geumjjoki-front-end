@@ -1,10 +1,10 @@
 import MobileLayout from '@/layouts/MobileLayout.vue'
 import ExpenseView from '@/views/ExpenseView.vue'
 import Expense_01 from '@/components/pages/expense/Expense_01.vue'
+import Expense_02 from '@/components/pages/expense/Expense_02.vue'
 export const expenseRoutes = [
   {
     path: '/expense',
-    name: 'expense',
     component: ExpenseView,
     meta: {
       layout: MobileLayout,
@@ -12,10 +12,20 @@ export const expenseRoutes = [
     },
     children: [
       {
-        path: '/expense',
+        path: '',
+        name: 'expense',
+        redirect: '/expense/analysis',
+      },
+      {
+        path: 'analysis',
         name: 'expense_01',
         component: Expense_01,
-      }
+      },
+      {
+        path: 'status',
+        name: 'expense_02',
+        component: Expense_02,
+      },
     ]
   },
 ]
