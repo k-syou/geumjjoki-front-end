@@ -1,5 +1,7 @@
 <template>
   <main class="px-5 w-full py-16 overflow-hidden">
+
+    <button @click="testLogout">테스트 로그아웃</button>
     <header class="w-full flex justify-between items-center mb-5">
       <div class="flex items-center gap-2">
         <span>&lt;</span>
@@ -82,8 +84,13 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 // import 'swiper/css/pagination';
 // import 'swiper/css/navigation';
+import { useAuthStore } from '@/stores/auth';
 
+const authStore = useAuthStore();
 
+function testLogout() {
+  authStore.logout();
+}
 </script>
 
 
@@ -96,7 +103,4 @@ import 'swiper/css';
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
-
-
 </style>

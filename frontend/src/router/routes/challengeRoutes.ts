@@ -8,6 +8,7 @@ export const challengeRoutes = [
     component: ChallengeView,
     meta: {
       layout: MobileLayout,
+      requiresAuth: true,
     },
     children: [
       {
