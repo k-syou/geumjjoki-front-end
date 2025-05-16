@@ -13,20 +13,28 @@
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { onMounted } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
 
-
+const authStore = useAuthStore()
 const userStore = useUserStore()
 
 onMounted(async () => {
   const token = localStorage.getItem('access_token');
-  console.log('현재 저장된 토큰:', token);
+  // console.log('현재 저장된 토큰:', token);
   try {
-    await userStore.fetchUser();
-    if (userStore.user) {
-      setTimeout(() => {
-        router.push({ name: 'home'})
-      }, 2000)
+    if (token) {
+      // 토큰 설정 및 인증 상태 업데이트
+      authStore.setToken(token);
+
+      // 명시적으로 userStore의 fetchUser를 직접 호출
+      await userStore.fetchUser();
+
+      if (userStore.user) {
+        setTimeout(() => {
+          router.push({ name: 'home' })
+        }, 2000)
+      }
     }
   } catch (error) {
     console.error('사용자 정보를 가져오는데 실패하였습니다:', error);

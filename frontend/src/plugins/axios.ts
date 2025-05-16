@@ -14,10 +14,10 @@ apiClient.interceptors.request.use(
       return config;
     }
     const token = localStorage.getItem('access_token');
-    console.log('현재 저장된 토큰:', token);
+    // console.log('현재 저장된 토큰:', token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
-      console.log('토큰 헤더 추가:', config.headers['Authorization']);
+      // console.log('토큰 헤더 추가:', config.headers['Authorization']);
     }
     return config;
   },
