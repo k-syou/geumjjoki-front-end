@@ -1,0 +1,27 @@
+import { defineStore } from 'pinia';
+import userService from '@/services/api/userService';
+import type { UserResponse, UserState } from '@/types/user';
+
+export const useUserStore = defineStore('user', {
+  state: (): UserState => ({
+    user: null as UserResponse | null,
+    isLoading: false,
+  }),
+  actions: {
+    async fetchUser() {
+      this.isLoading = true;
+      try {
+        const response = await userService.getUser();
+        this.user = response;
+      } catch (error) {
+        console.error('사용자 정보를 가져오는데 실패하였습니다:', error);
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  },
+  getters: {
+    getUser: (state: UserState) => state.user,
+    getLoadingState: (state: UserState) => state.isLoading,
+  },
+})

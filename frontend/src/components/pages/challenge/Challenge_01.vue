@@ -1,14 +1,14 @@
 <template>
   <main class="px-5 w-full py-16 overflow-hidden">
+
+    <!-- <button @click="testLogout">테스트 로그아웃</button> -->
     <header class="w-full flex justify-between items-center mb-5">
       <div class="flex items-center gap-2">
-        <span>&lt;</span>
+        <back-icon color="black"></back-icon>
         <span class="h3">챌린지</span>
       </div>
       <div class="w-30 bg-gold-200 py-1 px-2.5 rounded-full flex justify-between items-center">
-        <div>
-          ⭐
-        </div>
+        <img :src="StarImg" alt="⭐" class="w-6 h-6">
         <div>
           1200P
         </div>
@@ -20,23 +20,14 @@
         <div>
           진행중인 챌린지
         </div>
-        <div>
+        <div @click="router.push({name : 'challenge_before'})">
           지난 챌린지 &gt;
         </div>
       </div>
-      <swiper
-        :slides-per-view="3"
-        :space-between="100"
-        :loop="true"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false,
-        }"
-        :effect="'fade'"
-        :grab-cursor="true"
-        :centered-slides="true"
-        class="w-md"
-        >
+      <swiper :slides-per-view="3" :space-between="100" :loop="true" :autoplay="{
+        delay: 2500,
+        disableOnInteraction: false,
+      }" :effect="'fade'" :grab-cursor="true" :centered-slides="true" class="w-md">
         <swiper-slide v-for="item in [1, 2, 3, 4, 5]" :key="item">
           <div class="px-5 py-4.5 bg-gold-100 rounded-4xl flex flex-col min-w-43 h4 text-cocoa-600">
             <div class="fw-black">음식</div>
@@ -80,11 +71,21 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 // import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
+import BackIcon from '@/components/common/icons/BackIcon.vue';
+import StarImg from '@/assets/images/star.png'
 // import 'swiper/css/pagination';
 // import 'swiper/css/navigation';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
+const authStore = useAuthStore();
 
+function testLogout() {
+  authStore.logout();
+}
 </script>
+
 
 <style scoped>
 .scrollbar-hide::-webkit-scrollbar {
@@ -95,7 +96,4 @@ import 'swiper/css';
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
-
-
 </style>

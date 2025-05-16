@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
 
 // 스토어 ID 설정 및 내보내기
 export const useAuthStore = defineStore('auth', () => {
@@ -22,10 +24,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   function logout(): void {
     token.value = null;
+    const router = useRouter();
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('refresh_token');
+    router.push({ name: 'login' });
   }
 
   return {
