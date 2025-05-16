@@ -16,7 +16,7 @@ const error = ref(null);
 onMounted(async () => {
   // URL에서 토큰 추출
   const token = route.query.token;
-  console.log('Received token:', token)
+  // console.log('Received token:', token)
 
   if (token) {
     try {

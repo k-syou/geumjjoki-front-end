@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from './userStore';
 
 
 // 스토어 ID 설정 및 내보내기
@@ -22,6 +23,22 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // 로그인 액션 추가
+  async function login(newToken: string): Promise<void> {
+    setToken(newToken);
+    // 필요한 추가 작업 수행 (예: 사용자 정보 로드 등)
+    const userStore = useUserStore()
+    await userStore.fetchUser()
+  }
+
+  // 토큰 새로고침 및 상태 동기화
+  function refreshAuthState(): void {
+    const storedToken = localStorage.getItem('access_token');
+    if (storedToken && token.value !== storedToken) {
+      token.value = storedToken;
+    }
+  }
+
   function logout(): void {
     token.value = null;
     const router = useRouter();
@@ -37,6 +54,8 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading,
     isAuthenticated,
     setToken,
+    login,
+    refreshAuthState,
     logout
   };
 });
