@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center px-6 w-full">
     <TopNavBar title="소비" class="mt-16" />
-    <NavBar />
+    <NavBar :menus="menus"/>
     <!-- 나의 지출 내역 개요 -->
     <div
       class="rounded-4xl shadow-[0px_8px_14px_2px_rgba(0,_0,_0,_0.35)] justify-items-center px-3 pt-0 pb-7.5 mb-4 w-full">
@@ -82,11 +82,11 @@ import { FreeMode } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 
-defineProps({
-  categories: {
-    type: Array,
-  }
-})
+const menus = [
+  { name: '분석', to: 'analysis' },
+  { name: '현황', to: 'status' },
+]
+
 </script>
 
 <style scoped></style>
