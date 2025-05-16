@@ -14,6 +14,7 @@ export interface LoginRequest {
 }
 
 
+
 export interface UserResponse {
   id: number;
   username: string;
@@ -36,3 +37,4 @@ export interface UserProfileResponse {
   mileage: number;
   averageIncome?: number;
 }
+

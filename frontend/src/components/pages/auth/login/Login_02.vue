@@ -15,6 +15,12 @@ import { useUserStore } from '@/stores/userStore'
 import { onMounted } from 'vue'
 const router = useRouter()
 
+
+setTimeout(() => {
+  router.push({ name: 'home'})
+}, 2000)
+</script>`
+
 const userStore = useUserStore()
 
 onMounted(async () => {
