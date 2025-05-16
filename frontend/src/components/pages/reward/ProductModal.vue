@@ -5,7 +5,7 @@
     @click.self="$emit('close')"
   >
     <!-- 모달 박스 -->
-  <div class="bg-gray-200 rounded-3xl w-90 h-170 px-10 pt-14.5 shadow-lg text-center">
+    <div class="bg-gray-200 rounded-3xl w-90 h-170 px-10 pt-14.5 shadow-xl text-center">
 
       <!-- 이미지 영역 -->
       <div class="bg-gray-400 rounded-md w-full h-79.5 flex items-center justify-center border border-gray-600">

@@ -1,6 +1,6 @@
 <template>
-  <div class="py-16">
-  <!-- 상단 제목 -->
+  <div class="pt-16 pb-40">
+    <!-- 상단 제목 -->
     <div class="w-full relative">
       <div class="relative flex items-center h-7 mx-6">
         <h3 class="h3 mx-auto text-cocoa-600">리워드</h3>
@@ -12,8 +12,8 @@
 
     <!-- 탭 메뉴 -->
     <div class="w-full flex gap-4 px-6 mt-5 h-7 text-lg font-semibold">
-      <h3 class="h3 text-gray-600 ">상품목록</h3>
-      <h3 class="h3 text-brown-600">구매내역</h3>
+      <h3 class="h3 fw-black text-gray-600" @click="goToProductList">상품목록</h3>
+      <h3 class="h3 fw-black text-brown-600">구매내역</h3>
     </div>
 
     <!-- 카테고리 탭 -->
@@ -45,7 +45,7 @@
             class="flex flex-col items-center justify-center text-xs font-semibold w-14 h-14 rounded-full border"
             :class="statusClass(item.status)"
           >
-            <h4 class="h4 badge-text whitespace-pre-line">{{ item.statusLabel }}</h4>
+            <h4 class="h4 fw-black badge-text whitespace-pre-line">{{ item.statusLabel }}</h4>
           </div>
 
           <!-- 상품 정보 -->
@@ -56,20 +56,29 @@
           </div>
         </div>
 
-        <!-- 우측 버튼 -->
-        <button class="bg-minty-400 text-gray-100 rounded-full">
-          <h4 class="h4 w-25.5 h-8">내역보기</h4>
-        </button>
+        <div>
+          <!-- 우측 버튼 -->
+          <button class="bg-minty-400 text-gray-100 rounded-full" @click="showModal = true">
+            <h4 class="h4 w-25.5 h-8">내역보기</h4>
+          </button>
+
+          <!-- 모달 컴포넌트 -->
+          <PayProductModal v-if="showModal" @close="showModal = false" />
+        </div>
       </div>
     </div>
-
   </div>
 
 </template>
 
 <script setup lang='ts'>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import sort from '@/components/common/icons/sort.vue'
 import BackIcon from '@/components/common/icons/BackIcon.vue'
+import PayProductModal from '@/components/pages/reward/PayProductModal.vue'
+
+const router = useRouter()
 
 const list = [1,2,3,4,5]
 
@@ -94,11 +103,13 @@ const statusClass = (status: string) => {
   }
 }
 
+const showModal = ref(false)
+
+const goToProductList = () => {
+  router.push({ name: 'reward' })
+}
 
 </script>
 
 <style>
-.badge-text {
-
-}
 </style>
