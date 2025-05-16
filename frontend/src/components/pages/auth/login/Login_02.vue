@@ -16,11 +16,6 @@ import { onMounted } from 'vue'
 const router = useRouter()
 
 
-setTimeout(() => {
-  router.push({ name: 'home'})
-}, 2000)
-</script>`
-
 const userStore = useUserStore()
 
 onMounted(async () => {
@@ -39,6 +34,4 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
