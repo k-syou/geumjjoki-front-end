@@ -31,7 +31,7 @@
         required />
     </div>
     <div>
-      <button type="submit" class = "w-89 h-12 bg-cocoa-100 border border-cocoa-200 p rounded-xl h3"> 확인 </button>
+      <button type="submit" class = "w-89 h-12 bg-gold-200 p rounded-xl h3"> 확인 </button>
     </div>
   </form>
 

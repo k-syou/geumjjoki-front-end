@@ -19,7 +19,7 @@
 const props = defineProps({
   color: {
     type: String,
-    default: 'cocoa-600'
+    default: 'default'
   },
   width: {
     type: String,

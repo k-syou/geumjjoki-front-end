@@ -46,6 +46,8 @@ const router = useRouter()
 const goHome2 = () => {
   router.push({ name: 'home2' })
 }
+
+
 </script>
 
 <style scoped></style>

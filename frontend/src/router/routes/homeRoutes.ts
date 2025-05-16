@@ -4,6 +4,7 @@ import Home_01 from '@/components/pages/home/Home_01.vue'
 import Home_02 from '@/components/pages/home/Home_02.vue'
 import Home_03 from '@/components/pages/home/Home_03.vue'
 import Home_04 from '@/components/pages/home/Home_04.vue'
+import ProfileChangeModal from '@/components/pages/home/ProfileChangeModal.vue'
 
 export const homeRoutes = [
   {
@@ -34,6 +35,11 @@ export const homeRoutes = [
         path: '/changepassword',
         name: 'home4',
         component: Home_04,
+      },
+      {
+        path: '/changeprofileimage',
+        name: 'profileChangeModal',
+        component: ProfileChangeModal,
       },
     ],
   },

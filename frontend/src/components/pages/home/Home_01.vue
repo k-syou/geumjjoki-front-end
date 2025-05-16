@@ -8,16 +8,17 @@
         <h3 class="h3 fw-black text-gold-600">GEUMJJOKI</h3>
       </div>
       <div>
-        <HambergerIcon @click = 'goHome2' />
+        <HambergerIcon @click = 'goHome2' class="cursor-pointer" />
       </div>
     </div>
 
+
     <!-- 프로필 부분 -->
     <div class="mx-auto w-fit flex flex-col gap-5">
-      <h3 class="w-full h-12 h3 fw-black"><span class="h2">User</span> 님 반갑습니다.</h3>
+      <h3 class="w-full h-12 h3"><span class="h2 fw-bold">금쪼기님</span> 반갑습니다.</h3>
       <div class="w-41 h-7 px-3 bg-gold-200 rounded-2xl flex items-center justify-between">
         <img src="@/assets/images/point.png" alt="point">
-        <p class="block p1">1200P</p>
+        <p class="block h4">1200P</p>
       </div>
       <!-- 카드 2개 -->
       <section class="w-90 h-31 flex gap-8">
@@ -41,17 +42,16 @@
     <div class="w-full h-6 mt-6 mb-3 flex items-center justify-between">
       <h1 class="h3">리워드를 교환하세요</h1>
       <div class="flex items-center ">
-        <h4 class="h4 fw-black text-gray-600"> 더보기 </h4>
-        <RightArrow />
+        <h4 class="cursor-pointer h4 fw-black text-gray-600"> 더보기 </h4>
+        <RightArrow color = 'gray-600' width = '12' height = '12' />
       </div>
     </div>
     <!-- 캐러셀 -->
-
     <div class="w-fit items-center mt-3">
       <div class="flex gap-4">
-        <div v-for="(reward, index) in rewards" :key="index">
+        <div v-for="(reward, index) in rewards" :key="index" >
           <img :src="reward.image" alt="gifticon" class="w-36 h-25">
-          <p class="caption fw-bold">{{ reward.category }}</p>
+          <p class="caption fw-bold mt-1">{{ reward.category }}</p>
           <p class="caption fw-bold">{{ reward.name }}</p>
           <p class="caption fw-bold">{{ reward.point }}</p>
         </div>
@@ -62,8 +62,8 @@
     <div class="w-full h-6 mb-3 flex items-center justify-between mt-20">
       <h1 class="h3">챌린지를 도전하세요</h1>
       <div class="flex items-center ">
-        <h4 class="h4 fw-black text-gray-600"> 더보기 </h4>
-        <RightArrow />
+        <h4 @click = "goChallenge1" class="cursor-pointer h4 fw-black text-gray-600"> 더보기 </h4>
+        <RightArrow color = 'gray-600' width = '12' height = '12' />
       </div>
     </div>
     <!-- 캐러셀 -->
@@ -81,6 +81,16 @@
     </div>
   </section>
 
+<!-- 사이드바 -->
+
+
+<!-- drawer init and show -->
+<div class="text-center">
+   <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+   Show navigation
+   </button>
+</div>
+
 
 </template>
 
@@ -90,7 +100,10 @@ import ExpenseIcon from '@/components/common/icons/ExpenseIcon.vue'
 import ChallengeIcon from '@/components/common/icons/ChallengeIcon.vue'
 import HambergerIcon from '@/components/common/icons/HambergerIcon.vue'
 import RightArrow from '@/components/common/icons/RightArrow.vue'
-import GifticonImg from '@/assets/images/gifticon1.png'
+import Gifticon1 from '@/assets/images/gifticon1.png'
+import Gifticon2 from '@/assets/images/Gifticon2.png'
+import Gifticon3 from '@/assets/images/Gifticon3.png'
+import Gifticon4 from '@/assets/images/Gifticon4.png'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -99,11 +112,15 @@ const goHome2 = () => {
   router.push({name:'home2'})
 }
 
+const goChallenge1 = () => {
+  router.push({name:'challenge'})
+}
+
 const rewards = ref([
-  { category: '카테고리 1', name: "상품명 1", point: '2000P', image: GifticonImg },
-  { category: '카테고리 2', name: "상품명 2", point: '1000P', image: GifticonImg },
-  { category: '카테고리 3', name: "상품명 3", point: '3000P', image: GifticonImg },
-  { category: '카테고리 4', name: "상품명 4", point: '4000P', image: GifticonImg }
+  { category: '카테고리 1', name: "상품명 1", point: '2000P', image: Gifticon1 },
+  { category: '카테고리 2', name: "상품명 2", point: '1000P', image: Gifticon2 },
+  { category: '카테고리 3', name: "상품명 3", point: '3000P', image: Gifticon3 },
+  { category: '카테고리 4', name: "상품명 4", point: '4000P', image: Gifticon4 }
 ])
 
 const challenges = ref([
