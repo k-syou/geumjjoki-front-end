@@ -55,9 +55,15 @@ const menus = ref<Menu[]>([
   }
 ])
 
+const getRootPath = (path: string) => {
+  const root = path.split('/')[1] || '';
+  return root === '' ? 'home' : root;
+}
+
 // 현재 경로가 변경될 때마다 active 상태 업데이트
 watch(route, () => {
-  const activeIndex = menus.value.findIndex(menu => menu.path.name === route.name);
+  const currentRoot = getRootPath(route.path)
+  const activeIndex = menus.value.findIndex(menu => menu.path.name === currentRoot);
   if (activeIndex !== -1) {
     menus.value.forEach((menu, index) => {
       if (index === activeIndex) {
@@ -73,7 +79,24 @@ const handleClick = (index: number) => {
   menus.value[index].isActive = true;
   router.push(menus.value[index].path);
 };
+// 현재 경로가 변경될 때마다 active 상태 업데이트
+// watch(route, () => {
+//   const activeIndex = menus.value.findIndex(menu => menu.path.name === route.name);
+//   if (activeIndex !== -1) {
+//     menus.value.forEach((menu, index) => {
+//       if (index === activeIndex) {
+//         menu.isActive = true;
+//       } else {
+//         menu.isActive = false;
+//       }
+//     });
+//   }
+// }, { immediate: true });
 
+// const handleClick = (index: number) => {
+//   menus.value[index].isActive = true;
+//   router.push(menus.value[index].path);
+// };
 
 </script>
 

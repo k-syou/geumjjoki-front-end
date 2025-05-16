@@ -1,6 +1,8 @@
 import MobileLayout from '@/layouts/MobileLayout.vue'
 import ChallengeView from '@/views/ChallengeView.vue'
 import Challenge_01 from '@/components/pages/challenge/Challenge_01.vue'
+import Challenge_02 from '@/components/pages/challenge/Challenge_02.vue'
+import Challenge_03 from '@/components/pages/challenge/Challenge_03.vue'
 
 export const challengeRoutes = [
   {
@@ -8,6 +10,7 @@ export const challengeRoutes = [
     component: ChallengeView,
     meta: {
       layout: MobileLayout,
+      requiresAuth: true,
     },
     children: [
       {
@@ -15,6 +18,16 @@ export const challengeRoutes = [
         name: 'challenge',
         component: Challenge_01,
       },
+      {
+        path: 'before',
+        name: 'challenge_before',
+        component: Challenge_02
+      },
+      {
+        path: ':id',
+        name: 'challenge_detail',
+        component: Challenge_03
+      }
     ],
   },
 ]

@@ -1,5 +1,7 @@
 <template>
-  <h1 class="h1">리워드</h1>
+  <div class="w-full">
+    <router-view />
+  </div>
 </template>
 
 <script setup lang='ts'>

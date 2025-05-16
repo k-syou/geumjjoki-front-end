@@ -6,6 +6,7 @@ import EmailCallbackView from '@/views/auth/EmailCallback.vue'
 import Login_01 from '@/components/pages/auth/login/Login_01.vue'
 import Login_02 from '@/components/pages/auth/login/Login_02.vue'
 import MobileAuthLayout from '@/layouts/MobileAuthLayout.vue'
+import guestGuard from '@/middlewares/guards/guest.guard'
 
 export const authRoutes = [
   {
@@ -17,12 +18,13 @@ export const authRoutes = [
     children: [
       {
         path: 'login',
-        name: 'login_01',
+        name: 'login',
         component: Login_01,
+        beforeEnter: guestGuard,
       },
       {
         path: 'login/submit',
-        name: 'login_02',
+        name: 'login_submit',
         component: Login_02,
       },
     ],
