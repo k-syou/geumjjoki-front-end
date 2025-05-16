@@ -42,9 +42,7 @@
 <script setup>
 import LeftArrow from '@/components/common/icons/LeftArrow.vue';
 import { useRouter } from 'vue-router'
-
 const router = useRouter()
-
 const goHome2 = () => {
   router.push({ name: 'home2' })
 }
