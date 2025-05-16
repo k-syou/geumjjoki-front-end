@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen mx-auto max-w-md relative">
+  <div class="h-screen mx-auto max-w-md bg-gray-200 relative flex flex-col items-center pb-16">
     <slot />
     <MenuBar />
   </div>
@@ -9,5 +9,5 @@
 import MenuBar from '@/components/navbar/MenuBar.vue'
 </script>
 
-<style>
+<style scoped>
 </style>

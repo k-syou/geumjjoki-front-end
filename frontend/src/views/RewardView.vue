@@ -1,7 +1,7 @@
 <template>
-  <section class="flex flex-col items-center bg-gray-200 h-screen">
-    <h1 class="h1">리워드</h1>
-  </section>
+  <div class="w-full">
+    <router-view />
+  </div>
 </template>
 
 <script setup lang='ts'>

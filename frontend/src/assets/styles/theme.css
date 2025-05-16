@@ -1,5 +1,5 @@
 @theme {
-  --spacing: 4px;
+  --spacing: 0.25rem;
 
   --color-*: initial;
   --color-black: #000000;
@@ -10,6 +10,7 @@
   --color-gray-400: #e5e5e5;
   --color-gray-500: #cccccc;
   --color-gray-600: #b3b3b3;
+  --color-gray-700: #757575;
 
   --color-cocoa-100: #D9CFCB;
   --color-cocoa-200: #B9A79D;
@@ -47,15 +48,15 @@
 
   --color-red-600: #FF0000;
 
-  --font-display: 'Pretendard-Regular', sans-serif;
-  --font-body: 'Pretendard-Regular', sans-serif;
+  --font-display: 'PretendardVariable', sans-serif;
+  --font-body: 'PretendardVariable', sans-serif;
 
   --shadow-menu-bar: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
 }
 
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
+  font-family: 'PretendardVariable';
+  src: url('../fonts/PretendardVariable.ttf') format('truetype');
+  /* font-weight: 400; */
   font-style: normal;
 }

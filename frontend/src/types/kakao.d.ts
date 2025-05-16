@@ -18,4 +18,5 @@ declare global {
   }
 }
 
-export {};
+export { KakaoStatic, Window };
+
