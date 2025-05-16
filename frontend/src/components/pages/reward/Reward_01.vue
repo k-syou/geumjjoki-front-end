@@ -12,8 +12,8 @@
 
     <!-- 탭 메뉴 -->
     <div class="w-full flex gap-4 px-6 mt-5 h-7 text-lg font-semibold">
-      <h3 class="h3 text-brown-600">상품목록</h3>
-      <h3 class="h3 text-gray-600">구매내역</h3>
+      <h3 class="h3 fw-black text-brown-600">상품목록</h3>
+      <h3 class="h3 fw-black text-gray-600" @click="goToPurchaseHistory">구매내역</h3>
     </div>
 
     <!-- 포인트 -->
@@ -32,7 +32,7 @@
     </div>
 
     <!-- 정렬 옵션 -->
-    <div class="self-end flex justify-end items-center gap-1 px-4 mt-5 h-7 text-base text-gray-600">
+    <div class="self-end flex justify-end items-center gap-1 px-6 mt-5 h-7 text-base text-gray-600">
       <sort />
       <h4 class="h4 w-19.5">금액 높은 순</h4>
     </div>
@@ -71,13 +71,20 @@
 </template>
 
 <script setup lang='ts'>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import sort from '@/components/common/icons/sort.vue'
 import BackIcon from '@/components/common/icons/BackIcon.vue'
-import { ref } from 'vue'
 import ProductModal from '@/components/pages/reward/ProductModal.vue'
 
 const selectedProduct = ref<number | null>(null)
 const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+const router = useRouter()
+const goToPurchaseHistory = () => {
+  router.push({ name: 'reward_02' })
+}
+
 </script>
 
 <style>
