@@ -8,7 +8,7 @@
         <h3 class="h3 fw-black text-gold-600">GEUMJJOKI</h3>
       </div>
       <div>
-        <HambergerIcon @click = 'goHome2' class="cursor-pointer" />
+        <HambergerIcon @click='goHome2' class="cursor-pointer" />
       </div>
     </div>
 
@@ -37,59 +37,65 @@
   </section>
 
   <!-- 리워드, 챌린지 부분 -->
-  <section class="w-full mt-5 ps-8 pe-4">
+  <section class="w-full mt-5 ps-8 pe-4 flex-col">
     <!-- 리워드 -->
     <div class="w-full h-6 mt-6 mb-3 flex items-center justify-between">
       <h1 class="h3">리워드를 교환하세요</h1>
       <div class="flex items-center ">
         <h4 class="cursor-pointer h4 fw-black text-gray-600"> 더보기 </h4>
-        <RightArrow color = 'gray-600' width = '12' height = '12' />
+        <RightArrow color='gray-600' width='12' height='12' />
       </div>
     </div>
-    <!-- 캐러셀 -->
-    <div class="w-fit items-center mt-3">
-      <div class="flex gap-4">
-        <div v-for="(reward, index) in rewards" :key="index" >
-          <img :src="reward.image" alt="gifticon" class="w-36 h-25">
-          <p class="caption fw-bold mt-1">{{ reward.category }}</p>
-          <p class="caption fw-bold">{{ reward.name }}</p>
-          <p class="caption fw-bold">{{ reward.point }}</p>
-        </div>
-      </div>
+    <!-- 리워드 캐러셀 -->
+    <div class="w-full items-center mt-3">
+      <swiper :slides-per-view="2.5" :space-between="30" :loop="true" :grab-cursor="true" class="w-full mt-3">
+        <swiper-slide v-for="(reward, index) in rewards" :key="index">
+          <div class="flex-col gap-4">
+            <img :src="reward.image" alt="gifticon" class="w-36 h-25" />
+            <p class="caption fw-bold mt-1">{{ reward.category }}</p>
+            <p class="caption fw-bold">{{ reward.name }}</p>
+            <p class="caption fw-bold">{{ reward.point }}</p>
+          </div>
+        </swiper-slide>
+      </swiper>
     </div>
 
     <!-- 챌린지 -->
-    <div class="w-full h-6 mb-3 flex items-center justify-between mt-20">
+    <div class="w-full h-6 mb-3 flex items-center justify-between mt-10">
       <h1 class="h3">챌린지를 도전하세요</h1>
       <div class="flex items-center ">
-        <h4 @click = "goChallenge1" class="cursor-pointer h4 fw-black text-gray-600"> 더보기 </h4>
-        <RightArrow color = 'gray-600' width = '12' height = '12' />
+        <h4 @click="goChallenge1" class="cursor-pointer h4 fw-black text-gray-600"> 더보기 </h4>
+        <RightArrow color='gray-600' width='12' height='12' />
       </div>
     </div>
-    <!-- 캐러셀 -->
-    <div class="w-full overflow-x-hidden items-center mt-3">
-      <div class="flex gap-4">
-        <div v-for="(challenge, index) in challenges" :key="index">
+
+    <!-- 챌린지 캐러셀 -->
+    <div class="w-full items-center mt-3">
+      <swiper :slides-per-view="2.5" :space-between="100" :loop="true" :grab-cursor="true" class="w-full">
+        <swiper-slide v-for="(challenge, index) in challenges" :key="index">
           <div class="h-30 w-43 bg-gray-300 rounded-3xl px-5 py-4 flex-col gap-1">
             <p class="h4 fw-black">{{ challenge.category }}</p>
             <p class="h4">{{ challenge.name }}</p>
             <p class="h4">{{ challenge.point }}</p>
             <p class="h6">{{ challenge.valid }}</p>
           </div>
-        </div>
-      </div>
+        </swiper-slide>
+      </swiper>
     </div>
   </section>
 
-<!-- 사이드바 -->
+  <!-- 사이드바 -->
 
 
-<!-- drawer init and show -->
-<div class="text-center">
-   <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
-   Show navigation
-   </button>
-</div>
+  <!-- drawer init and show -->
+  <div class="text-center">
+    <button
+      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+      type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation"
+      aria-controls="drawer-navigation">
+      Show navigation
+    </button>
+  </div>
 
 
 </template>
@@ -106,14 +112,16 @@ import Gifticon3 from '@/assets/images/Gifticon3.png'
 import Gifticon4 from '@/assets/images/Gifticon4.png'
 import { useRouter } from 'vue-router'
 
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
 const router = useRouter()
 
 const goHome2 = () => {
-  router.push({name:'home2'})
+  router.push({ name: 'home2' })
 }
 
 const goChallenge1 = () => {
-  router.push({name:'challenge'})
+  router.push({ name: 'challenge' })
 }
 
 const rewards = ref([

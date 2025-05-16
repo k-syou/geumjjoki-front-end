@@ -1,7 +1,7 @@
 <template>
   <!-- 제목부분 -->
   <div class="relative flex items-center justify-center w-full">
-    <LeftArrow @click="goHome2" class="absolute top-1/2 -translate-y-1/2 left-10" />
+    <LeftArrow @click="goHome2" class="absolute top-1/2 -translate-y-1/2 left-10 cursor-pointer" />
     <h3 class="h3 font-bold"> 회원정보 수정 </h3>
   </div>
 
@@ -31,8 +31,8 @@
 
   <!-- 로그 아웃, 회원 탈퇴 -->
   <div class="w-full mt-9 flex flex-col gap-2 items-center">
-    <p class="p text-red-600 font-bold underline">로그아웃</p>
-    <p class="p text-gray-500 font-bold">회원 탈퇴</p>
+    <p class="p text-red-600 font-bold underline cursor-pointer" >로그아웃</p>
+    <p class="p text-gray-500 font-bold cursor-pointer">회원 탈퇴</p>
   </div>
 
 </template>

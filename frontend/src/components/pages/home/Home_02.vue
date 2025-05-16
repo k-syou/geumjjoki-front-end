@@ -21,8 +21,6 @@
       <button @click="goChangeProfilePicuter"
         class="cursor-pointer w-30 h-7 border-gray-600 border-solid border-2 rounded-2xl h4 text-center me-9"> 프로필 변경
       </button>
-
-
     </div>
 
     <!-- 경험치 progress bar -->
@@ -30,9 +28,10 @@
       <!-- 전체 막대기 -->
       <div class="relative w-100 bg-gray-300 rounded-full h-4 mb-1">
         <!-- 누적 경험치 -->
-        <div class="bg-gray-600 h-4 rounded-full" style="width: 30%;" id="progress-bar">
+        <div class="bg-gray-600 h-4 rounded-full" style="width: 40%;" id="progress-bar">
           <!-- 말풍선 -->
-          <div class="absolute left-30 -translate-x-1/2 -top-10">
+           <!-- left 값은 누적 경험치 바의 width값과 동일하게 해야 함 -->
+          <div class="absolute left-40 -translate-x-1/2 -top-10">
             <div class="bg-gray-600 text-gray-100 h4 px-3 py-1 rounded-md relative">
               30,000
               <div class="w-3 h-3 bg-gray-600 rotate-45 left-1/2 absolute -translate-x-1/2 -bottom-1.5"></div>
@@ -64,19 +63,19 @@
     <div>
       <div class="flex gap-4 items-center mb-7">
         <ExpenseIcon color='cocoa-600' />
-        <p class="p1"> 소비 내역 조회</p>
+        <p class="p1 cursor-pointer"> 소비 내역 조회</p>
       </div>
       <div class="flex gap-4 items-center mb-7">
         <RewardIcon />
-        <p class="p1"> 리워드 교환</p>
+        <p class="p1 cursor-pointer"> 리워드 교환</p>
       </div>
-      <div class="flex gap-4 items-center mb-7">
+      <div @click = "goChallenge1" class="flex gap-4 items-center mb-7">
         <ChallengeIcon color='cocoa-600' />
-        <p class="p1"> 챌린지 도전</p>
+        <p class="p1 cursor-pointer"> 챌린지 도전</p>
       </div>
       <div class="flex gap-4 items-center mb-7">
         <ArticleIcon color='cocoa-600' />
-        <p class="p1"> 게시글 작성</p>
+        <p class="p1 cursor-pointer"> 게시글 작성</p>
       </div>
     </div>
 
@@ -85,15 +84,15 @@
     <div>
       <div class="flex gap-4 items-center mb-7" @click='goHome3'>
         <UserInfoUpdateIcon />
-        <p class="p1"> 회원정보 수정</p>
+        <p class="p1 cursor-pointer"> 회원정보 수정</p>
       </div>
       <div class="flex gap-4 items-center mb-7" @click='goHome4'>
         <PasswordChangeIcon />
-        <p class="p1"> 비밀번호 변경</p>
+        <p class="p1 cursor-pointer"> 비밀번호 변경</p>
       </div>
     </div>
   </section>
-
+  <ProfileChangeModal v-if="showModal" @close="showModal = false" />
 
 
 
@@ -111,7 +110,7 @@ import PasswordChangeIcon from '@/components/common/icons/PasswordChangeIcon.vue
 import CloseIcon from '@/components/common/icons/CloseIcon.vue';
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import ProfileChangeModal from '@/components/pages/home/ProfileChangeModal.vue'
+import ProfileChangeModal from '@/components/modal/ProfileChangeModal.vue'
 const showModal = ref(false)
 
 const router = useRouter()
@@ -126,23 +125,14 @@ const goHome4 = () => {
   router.push({ name: 'home4' })
 }
 const goChangeProfilePicuter = () => {
-  router.push({ name: 'profileChangeModal' })
+  showModal.value = true
 }
-
+const goChallenge1 = () => {
+  router.push({ name: 'challenge' })
+}
 
 </script>
 
 <style scoped>
-.slide-up-enter-from,
-.slide-up-leave-to {
-  transform: translateY(100%);
-}
-.slide-up-enter-to,
-.slide-up-leave-from {
-  transform: translateY(0%);
-}
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: transform 0.3s ease;
-}
+
 </style>
