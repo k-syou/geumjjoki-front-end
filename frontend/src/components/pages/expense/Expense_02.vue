@@ -20,19 +20,30 @@
       <!-- 조회 조건 모달 -->
       <div v-show="isFilterOpen"
         class="absolute top-0 left-0 w-full z-30 shadow-[0px_8px_14px_2px_rgba(0,_0,_0,_0.35)] rounded-xl">
-        <div class="w-full pt-12 rounded-xl bg-white text-cocoa-600 flex-row h-50">
-          <p>카테고리별</p>
-          <div>
-
+        <div class="w-full pt-12 rounded-xl bg-white text-cocoa-600 p-4.5">
+          <div class="mt-5">
+            <h3 class="text-xl font-bold mb-2">카테고리별</h3>
+            <div class="grid grid-cols-4 gap-1">
+              <button v-for="category in categories" :key="category" class="rounded-lg bg-gold-300 w-22 h-12 h4"
+                :class="selectedCategories.includes(category) ? 'bg-gold-500' : ''" @click="toggleCategory(category)">
+                {{ category }}
+              </button>
+            </div>
           </div>
-          <p>이용 기간</p>
-          <div>
-
+          <div class="mt-8 mb-4.5">
+            <h3 class="text-xl font-bold mb-2">이용 기간</h3>
+            <div class="grid grid-cols-4 gap-1">
+              <button v-for="period in periods" :key="period" class="rounded-lg bg-gold-300 w-22 h-12 h4"
+                :class="selectedPeriod === period ? 'bg-gold-500' : ''" @click="selectPeriod(period)">
+                {{ period }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-show="isFilterOpen" class="fixed top-0 left-0 w-full h-screen bg-gray-300/70"></div>
+    <div v-show="isFilterOpen" @click="toggleFilter" class="z-5 absolute top-0 left-0 w-full h-screen bg-gray-300/70">
+    </div>
 
     <!-- 구분선 -->
     <div class="w-full px-6 h-13 flex items-center">
@@ -46,7 +57,7 @@
         <p>100,000원</p>
       </div>
       <div class="flex flex-col space-y-7">
-        <div v-for="item in 5" :key="item" class="flex justify-between px-6 items-center">
+        <div v-for="item in 5" :key="item" class="flex justify-between px-6 items-center" @click="goToDetail(item)">
           <div>
             <p>카테고리</p>
             <p>설명</p>
@@ -71,6 +82,7 @@ import NavBar from '@/components/navbar/NavBar.vue'
 import DownArrow from '@/components/common/icons/DownArrow.vue'
 import DownIcon from '@/components/common/icons/DownIcon.vue'
 import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const menus = [
   { name: '분석', to: 'analysis' },
@@ -81,10 +93,35 @@ const categories = [
   "음식·유흥", "주거·통신", "생활·쇼핑", "뷰티·미용", "취미·여가", "교통·차량", "기타"
 ]
 
+const periods = [
+  "전체", "일주일", "한달",
+]
+
+const selectedCategories = ref([])
+
+const selectedPeriod = ref(null)
+
+const toggleCategory = category => {
+  const idx = selectedCategories.value.indexOf(category)
+  if (idx >= 0) selectedCategories.value.splice(idx, 1)
+  else selectedCategories.value.push(category)
+}
+
+const selectPeriod = period => {
+  selectedPeriod.value = period
+}
+
 const isFilterOpen = ref(false)
 
 const toggleFilter = () => {
   isFilterOpen.value = !isFilterOpen.value
+}
+
+const route = useRoute()
+const router = useRouter()
+
+const goToDetail = item => {
+  router.push(route.path + '/' + item)
 }
 
 </script>
