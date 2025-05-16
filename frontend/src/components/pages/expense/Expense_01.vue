@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center px-6 w-full">
     <TopNavBar title="소비" class="mt-16" />
-    <NavBar :menus="menus"/>
+    <NavBar :menus="menus" />
     <!-- 나의 지출 내역 개요 -->
     <div
       class="rounded-4xl shadow-[0px_8px_14px_2px_rgba(0,_0,_0,_0.35)] justify-items-center px-3 pt-0 pb-7.5 mb-4 w-full">
@@ -11,8 +11,8 @@
       <div class="w-full rounded-3xl bg-gold-200 px-4.5 py-5 text-cocoa-600 h4">
         <p>나의 1월 소비는</p>
         <p>지난달 대비
-          <span v-if="isIncrease" :class="{'text-red-600': isIncrease}">▲120,000원</span>
-          <span v-else :class="{'text-naver-green-200': !isIncrease}">▼120,000원</span>
+          <span v-if="isIncrease" :class="{ 'text-red-600': isIncrease }">▲120,000원</span>
+          <span v-else :class="{ 'text-naver-green-200': !isIncrease }">▼120,000원</span>
           <span v-if="isIncrease"> 늘었어요</span>
           <span v-else> 줄었어요</span>
         </p>
