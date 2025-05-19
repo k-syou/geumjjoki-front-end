@@ -1,6 +1,6 @@
 <template>
   <!-- 제목부분 -->
-  <div class="relative flex items-center justify-center w-full">
+  <div class="relative flex items-center justify-center w-full mt-16">
     <LeftArrow @click="goHome2" class="absolute top-1/2 -translate-y-1/2 left-10 cursor-pointer" />
     <h3 class="h3 font-bold"> 비밀번호 변경 </h3>
   </div>
