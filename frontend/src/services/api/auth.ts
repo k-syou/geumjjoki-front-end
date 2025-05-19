@@ -15,6 +15,10 @@ export const authService = {
   emailDuplicationCheck: async () => {
     const response = await apiClient.get('/auth/email-check/')
     return response.data
+  },
+  naverLogin: () => {
+    const redirectUrl = `${apiClient.getUri()}/auth/naver-login/`;
+    window.location.href = redirectUrl;
   }
 };
 
