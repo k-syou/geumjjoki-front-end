@@ -1,6 +1,5 @@
 import apiClient from "@/plugins/axios";
 import type { LoginRequest } from "@/types/user";
-import { useAuthStore } from "@/stores/auth";
 
 export const authService = {
   emailLogin: async (credential: LoginRequest) => {
