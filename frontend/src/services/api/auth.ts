@@ -1,6 +1,5 @@
 import apiClient from "@/plugins/axios";
 import type { LoginRequest } from "@/types/user";
-import { useAuthStore } from "@/stores/auth";
 
 export const authService = {
   emailLogin: async (credential: LoginRequest) => {
@@ -15,6 +14,10 @@ export const authService = {
   emailDuplicationCheck: async () => {
     const response = await apiClient.get('/auth/email-check/')
     return response.data
+  },
+  naverLogin: () => {
+    const redirectUrl = `${apiClient.getUri()}/auth/naver-login/`;
+    window.location.href = redirectUrl;
   }
 };
 

@@ -12,6 +12,9 @@ const useAuth = () => {
   const kakaoLogin = () => {
     authService.kakaoLogin();
   };
+  const naverLogin = () => {
+    authService.naverLogin();
+  };
   const emailDuplicationCheck = async () => {
     const data = await authService.emailDuplicationCheck();
     return data.duplication
@@ -57,6 +60,7 @@ const useAuth = () => {
 
   return {
     kakaoLogin,
+    naverLogin,
     emailDuplicationCheck,
     emailLogin
   };

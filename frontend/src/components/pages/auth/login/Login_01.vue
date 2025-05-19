@@ -60,7 +60,6 @@ import logoPath from '@/assets/images/geumjjoki_logo_with_text.png';
 import useAuthComposable from '@/composables/useAuth';
 import TopLabelInput from '@/components/input/TopLabelInput.vue';
 import { validateEmail } from '@/utils/formatters';
-import { authService } from '@/services/api/auth';
 const useAuth = useAuthComposable();
 const errorMessage = ref<string>('');
 const emailUserInfo = ref<LoginRequest>({
@@ -73,8 +72,7 @@ const handleKakaoLogin = () => {
 }
 
 const handleNaverLogin = () => {
-  console.log('naver login')
-  router.push({ name: 'login_02' })
+  useAuth.naverLogin()
 }
 
 const route = useRoute()
