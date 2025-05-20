@@ -4,19 +4,20 @@
    <div class="relative flex items-center justify-center w-full mt-16">
       <LeftArrow class="absolute top-1/2 -translate-y-1/2 left-10 cursor-pointer" />
       <h3 class="h3 font-bold">게시글</h3>
-      <SearchIcon class="absolute top-1/2 -translate-1/2 right-10 cursor-pointer" />
+      <SearchIcon @click = "goArticle1_2" class="absolute top-1/2 -translate-1/2 right-10 cursor-pointer" />
    </div>
    <div class="w-full ps-6 pt-7 flex gap-4">
       <h3 class="h3 fw-black">최신글</h3>
       <h3 class="h3 fw-black">인기글</h3>
+      <h3 class="h3 fw-black">즐겨찾기</h3>
    </div>
    <!-- 게시글 -->
    <div class="mt-9 w-full max-h-full overflow-y-auto pb-6 scrollbar-hide">
-      <div @click = "goDetail_article" v-for="article in articles" :key=article.title
+      <div  v-for="article in articles" :key=article.title
        class="ps-6 pe-4 w-full border-t border-b border-gray-600 cursor-pointer">
-         <div class="flex items-center justify-between my-5">
+         <div @click = "goDetail_article" class="flex items-center justify-between my-5">
             <div>
-               <h3 class="h3 fw-black">{{ article.title }}</h3>
+               <h3 class="h3">{{ article.title }}</h3>
                <h6 class="h6 w-50"> {{ article.content }}</h6>
             </div>
             <p class="caption font-bold">{{ article.created_at }} | {{ article.nickname }} </p>
@@ -64,6 +65,9 @@ const goDetail_article = () => {
    router.push({ name: 'detail_article'})
 }
 
+const goArticle1_2 = () => {
+   router.push({ name: 'article_search'})
+}
 const menus = [
    { name: '최신글' },
    { name: '인기글' },
