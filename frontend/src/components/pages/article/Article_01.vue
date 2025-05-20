@@ -1,5 +1,5 @@
 <template>
-   <WriteArticleIcon @click="goArticle2" class="absolute bottom-20 right-2 cursor-pointer" />
+   <WriteArticleIcon @click="goArticle3" class="absolute bottom-20 right-2 cursor-pointer" />
    <!-- 상단 바 -->
    <div class="relative flex items-center justify-center w-full mt-16">
       <LeftArrow class="absolute top-1/2 -translate-y-1/2 left-10 cursor-pointer" />
@@ -7,13 +7,13 @@
       <SearchIcon @click = "goArticle1_2" class="absolute top-1/2 -translate-1/2 right-10 cursor-pointer" />
    </div>
    <div class="w-full ps-6 pt-7 flex gap-4">
-      <h3 class="h3 fw-black">최신글</h3>
-      <h3 class="h3 fw-black">인기글</h3>
-      <h3 class="h3 fw-black">즐겨찾기</h3>
+      <h3 class="h3 fw-black cursor-pointer">최신글</h3>
+      <h3 class="h3 fw-black cursor-pointer">인기글</h3>
    </div>
+
    <!-- 게시글 -->
    <div class="mt-9 w-full max-h-full overflow-y-auto pb-6 scrollbar-hide">
-      <div  v-for="article in articles" :key=article.title
+      <div v-for="article in articles" :key=article.title
        class="ps-6 pe-4 w-full border-t border-b border-gray-600 cursor-pointer">
          <div @click = "goDetail_article" class="flex items-center justify-between my-5">
             <div>
@@ -40,8 +40,6 @@
    </div>
 
 
-
-
 </template>
 
 <script setup>
@@ -52,12 +50,13 @@ import SearchIcon from '@/components/common/icons/SearchIcon.vue';
 import CommentIcon from '@/components/common/icons/CommentIcon.vue';
 import LikeIcon from '@/components/common/icons/LikeIcon.vue';
 import ScrapIcon from '@/components/common/icons/ScrapIcon.vue';
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router'
+import useArticleComposable from '@/composables/useArticle';
 
 const router = useRouter()
 
-const goArticle2 = () => {
+const goArticle3 = () => {
    router.push({ name: 'create_article' })
 }
 
@@ -73,81 +72,93 @@ const menus = [
    { name: '인기글' },
 ]
 
+const articles = ref([])
+const useArticle = useArticleComposable()
+onMounted(async () => {
+   const data = await useArticle.getArticleList({})
+   articles.value = data.articles
+})
 
-const articles = ref([
-   {
-      title: '게시글입니다1.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다2.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다3.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다4.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다5.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다6.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다7.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-   {
-      title: '게시글입니다8.',
-      content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-      created_at: '12시간 전',
-      nickname: '금쪼기',
-      comments: 50000,
-      likes: 1027000,
-      scraps: 1027000
-   },
-])
+const scroll = ref(0)
+watch(scroll.value, () => {
+   
+})
+// const {articles, total_pages, total_items} = useArticle.getArticleList({}) // useArticle 에서 요청
+
+// // const articles = ref([
+//    {
+//       title: '게시글입니다1.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다2.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다3.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다4.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다5.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다6.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다7.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+//    {
+//       title: '게시글입니다8.',
+//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
+//       created_at: '12시간 전',
+//       nickname: '금쪼기',
+//       comments: 50000,
+//       likes: 1027000,
+//       scraps: 1027000
+//    },
+// // ])
 </script>
 
 <style scoped>
