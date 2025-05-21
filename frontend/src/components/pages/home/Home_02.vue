@@ -7,7 +7,7 @@
     </div>
   </section>
 
-  <section class="w-full ps-6">
+  <section class="w-full ps-11">
     <!-- 프로필 부분 -->
     <div class="flex justify-between items-center mt-10">
       <div class="flex gap-3 items-center">
@@ -24,7 +24,7 @@
     </div>
 
     <!-- 경험치 progress bar -->
-    <div class="w-100 h-max-110 mx-auto mt-15">
+    <div class="w-100 h-max-110 mt-10">
       <!-- 전체 막대기 -->
       <div class="relative w-100 bg-gray-300 rounded-full h-4 mb-1">
         <!-- 누적 경험치 -->
@@ -57,7 +57,7 @@
   </section>
 
 
-  <section class='w-full ps-7'>
+  <section class='w-full ps-11'>
     <!-- 전체 메뉴 -->
     <h4 class="h4 fw-black mb-6 text-gray-600"> 전체 메뉴</h4>
     <div>
@@ -73,7 +73,7 @@
         <ChallengeIcon color='cocoa-600' />
         <p class="p1 cursor-pointer"> 챌린지 도전</p>
       </div>
-      <div class="flex gap-4 items-center mb-7">
+      <div @click = "goArticle1" class="flex gap-4 items-center mb-7">
         <ArticleIcon color='cocoa-600' />
         <p class="p1 cursor-pointer"> 게시글 작성</p>
       </div>
@@ -130,6 +130,11 @@ const goChangeProfilePicuter = () => {
 const goChallenge1 = () => {
   router.push({ name: 'challenge' })
 }
+
+const goArticle1 = () => {
+  router.push({ name: 'article' })
+}
+
 
 </script>
 
