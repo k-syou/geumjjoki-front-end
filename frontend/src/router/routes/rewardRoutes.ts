@@ -9,6 +9,7 @@ export const rewardRoutes = [
     component: RewardView,
     meta: {
       layout: MobileLayout,
+      requiresAuth: true,
     },
     children: [
       {
