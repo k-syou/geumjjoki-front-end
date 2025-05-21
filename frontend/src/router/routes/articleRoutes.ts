@@ -24,7 +24,7 @@ export const articleRoutes = [
         component: Article_01_2,
       },
       {
-        path: '/detail_article',
+        path: '/article/:id',
         name: 'detail_article',
         component: Article_02,
       },
