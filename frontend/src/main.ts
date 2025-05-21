@@ -6,6 +6,10 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+// 테스트용 axios 인스턴스 전역 접근 가능하도록 설정
+import apiClient from '@/plugins/axios';
+(window as any).apiClient = apiClient;
+
 const app = createApp(App)
 const KAKAO_JAVASCRIPT_KEY = import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY
 
