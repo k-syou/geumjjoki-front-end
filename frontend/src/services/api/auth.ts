@@ -18,6 +18,10 @@ export const authService = {
   naverLogin: () => {
     const redirectUrl = `${apiClient.getUri()}/auth/naver-login/`;
     window.location.href = redirectUrl;
+  },
+  logout: async () => {
+    const response = await apiClient.post('/auth/logout/')
+    return response.data
   }
 };
 

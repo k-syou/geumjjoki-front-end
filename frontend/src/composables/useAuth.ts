@@ -22,9 +22,13 @@ const useAuth = () => {
   const emailLogin = async (credential: LoginRequest) => {
     try {
       const response = await authService.emailLogin(credential)
+      console.log(response)
+      const accessToken = response.data.access_token
+      const refreshToken = response.data.refresh_token
+
       // console.log(response.token)
-      if (response.token) {
-        window.location.href = `/auth/callback?token=${response.token}`;
+      if (accessToken) {
+        window.location.href = `/auth/callback?access_token=${accessToken}&refresh_token=${refreshToken}`;
       }
     } catch (error){
       console.error('로그인 실패', error)

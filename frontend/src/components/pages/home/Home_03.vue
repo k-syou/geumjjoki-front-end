@@ -31,7 +31,7 @@
 
   <!-- 로그 아웃, 회원 탈퇴 -->
   <div class="w-full mt-9 flex flex-col gap-2 items-center">
-    <p class="p text-red-600 font-bold underline cursor-pointer" >로그아웃</p>
+    <p class="p text-red-600 font-bold underline cursor-pointer" @click="handleLogout">로그아웃</p>
     <p class="p text-gray-500 font-bold cursor-pointer">회원 탈퇴</p>
   </div>
 
@@ -40,14 +40,18 @@
 <script setup>
 import LeftArrow from '@/components/common/icons/LeftArrow.vue';
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const router = useRouter()
 
 const goHome2 = () => {
   router.push({ name: 'home2' })
 }
 
-
+const handleLogout = async () => {
+  await authStore.logout()
+}
 </script>
 
 <style scoped></style>

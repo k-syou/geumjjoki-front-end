@@ -36,4 +36,26 @@
 //   }
 // }
 
+// cypress/support/commands.ts
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      socialLogin(): Chainable<void>;
+    }
+  }
+}
+Cypress.Commands.add('socialLogin', () => {
+  // 실제 소셜 로그인은 외부 리다이렉트가 필요하므로,
+  const apiUrl = Cypress.env('apiUrl');
+  // 테스트용 유저로 직접 토큰을 받아오는 API를 호출하는 방식으로 대체합니다.
+  cy.request('POST', `${apiUrl}/auth/email-login/`, {
+    email: 'test@example.com',
+    password: 'testpass123'
+  }).then((response) => {
+    const { access_token, refresh_token } = response.body;
+    window.localStorage.setItem('access_token', access_token);
+    window.localStorage.setItem('refresh_token', refresh_token);
+  });
+});
+
 export {}

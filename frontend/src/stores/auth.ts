@@ -1,61 +1,66 @@
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
+// import { ref, computed } from 'vue';
 import { useUserStore } from './userStore';
+import { authService } from '@/services/api/auth';
 
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    token: localStorage.getItem('access_token') || null,
+    refreshToken: localStorage.getItem('refresh_token') || null,
+    isLoading: false
+  }),
 
-// 스토어 ID 설정 및 내보내기
-export const useAuthStore = defineStore('auth', () => {
-  // 상태
-  const token = ref<string | null>(localStorage.getItem('access_token') || null);
-  const isLoading = ref<boolean>(false);
+  getters: {
+    isAuthenticated: (state) => !!state.token
+  },
 
-  // 게터
-  const isAuthenticated = computed<boolean>(() => !!token.value);
+  actions: {
+    setToken(newToken: string | null): void {
+      this.token = newToken;
+      if (newToken) {
+        localStorage.setItem('access_token', newToken);
+        sessionStorage.setItem('access_token', newToken);
+      } else {
+        localStorage.removeItem('access_token');
+        sessionStorage.removeItem('access_token');
+      }
+    },
 
-  // 액션
-  function setToken(newToken: string | null): void {
-    token.value = newToken;
-    if (newToken) {
-      localStorage.setItem('access_token', newToken);
-    } else {
-      localStorage.removeItem('access_token');
+    setRefreshToken(newRefreshToken: string | null): void {
+      this.refreshToken = newRefreshToken;
+      if (newRefreshToken) {
+        localStorage.setItem('refresh_token', newRefreshToken);
+        sessionStorage.setItem('refresh_token', newRefreshToken);
+      } else {
+        localStorage.removeItem('refresh_token');
+        sessionStorage.removeItem('refresh_token');
+      }
+    },
+
+    async login(newToken: string): Promise<void> {
+      this.setToken(newToken);
+      const userStore = useUserStore();
+      try {
+        await userStore.fetchUser();
+      } catch (error) {
+        console.error('사용자 정보 가져오기 실패:', error);
+        await this.logout();
+        window.location.href = '/auth/login';
+      }
+    },
+
+    refreshAuthState(): void {
+      const storedToken = localStorage.getItem('access_token');
+      if (storedToken && this.token !== storedToken) {
+        this.token = storedToken;
+      }
+    },
+
+    async logout(): Promise<void> {
+      await authService.logout();
+      this.setToken(null);
+      this.setRefreshToken(null);
+      window.location.href = '/auth/login';
     }
   }
-
-  // 로그인 액션 추가
-  async function login(newToken: string): Promise<void> {
-    setToken(newToken);
-    // 필요한 추가 작업 수행 (예: 사용자 정보 로드 등)
-    const userStore = useUserStore()
-    await userStore.fetchUser()
-  }
-
-  // 토큰 새로고침 및 상태 동기화
-  function refreshAuthState(): void {
-    const storedToken = localStorage.getItem('access_token');
-    if (storedToken && token.value !== storedToken) {
-      token.value = storedToken;
-    }
-  }
-
-  function logout(): void {
-    token.value = null;
-    const router = useRouter();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    sessionStorage.removeItem('access_token');
-    sessionStorage.removeItem('refresh_token');
-    router.push({ name: 'login' });
-  }
-
-  return {
-    token,
-    isLoading,
-    isAuthenticated,
-    setToken,
-    login,
-    refreshAuthState,
-    logout
-  };
 });
