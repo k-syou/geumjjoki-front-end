@@ -15,14 +15,17 @@ const error = ref(null);
 
 onMounted(async () => {
   // URL에서 토큰 추출
-  const token = route.query.token;
+  const accessToken = route.query.access_token;
+  const refreshToken = route.query.refresh_token;
   // console.log('Received token:', token)
 
-  if (token) {
+  if (accessToken) {
     try {
       // 토큰 저장
       localStorage.removeItem('access_token'); // 기존 토큰 제거
-      localStorage.setItem('access_token', token);
+      localStorage.setItem('access_token', accessToken);
+      localStorage.removeItem('refresh_token');
+      localStorage.setItem('refresh_token', refreshToken);
       // console.log('카카오 로그인: 토큰이 저장되었습니다:', token);
 
       router.push({ name: 'login_submit' });

@@ -20,12 +20,14 @@ const authStore = useAuthStore()
 const userStore = useUserStore()
 
 onMounted(async () => {
-  const token = localStorage.getItem('access_token');
+  const accessToken = localStorage.getItem('access_token');
+  const refreshToken = localStorage.getItem('refresh_token');
   // console.log('현재 저장된 토큰:', token);
   try {
-    if (token) {
+    if (accessToken) {
       // 토큰 설정 및 인증 상태 업데이트
-      authStore.setToken(token);
+      authStore.setToken(accessToken);
+      authStore.setRefreshToken(refreshToken);
 
       // 명시적으로 userStore의 fetchUser를 직접 호출
       await userStore.fetchUser();
