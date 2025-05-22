@@ -1,5 +1,5 @@
-import { authService } from "@/services/api/auth";
-import { useAuthStore } from "@/stores/auth";
+import { authService } from "@/services/api/authService";
+import { useAuthStore } from "@/stores/authStore";
 import { useUserStore } from "@/stores/userStore";
 import type { LoginRequest } from "@/types/user";
 import { useRouter } from "vue-router";
