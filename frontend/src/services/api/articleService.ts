@@ -50,7 +50,7 @@ const articleService = {
         return response.data
     },
 
-    // 대댓글 생성성
+    // 대댓글 생성
     createReply: async (articleId: Number, request: createCommentRequest) => {
         const response = await apiClient.post(`/articles/${articleId}/comments/`, request);
         console.log('추가한 대댓글 호출', response.data)
