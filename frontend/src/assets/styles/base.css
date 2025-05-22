@@ -8,6 +8,7 @@
 @source inline("{p,m}{x,y,t,r,b,l,s,e,}-{0..20}");
 @source inline("{font}-{display,body}");
 @source inline("{shadow}-{menu-bar}");
+@source inline("{stroke,fill}-none");
 
 .h1 {
   font-weight: 400;

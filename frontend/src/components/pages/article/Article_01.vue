@@ -13,27 +13,23 @@
 
    <!-- 게시글 -->
    <div class="mt-9 w-full max-h-full overflow-y-auto pb-6 scrollbar-hide">
-      <div v-for="article in articles" :key=article.title
+      <div v-for="article in articles" :key="article.article_id" @click = "goDetail_article(article.article_id)" 
        class="ps-6 pe-4 w-full border-t border-b border-gray-600 cursor-pointer">
-         <div @click = "goDetail_article" class="flex items-center justify-between my-5">
+         <div class="flex items-center justify-between my-5">
             <div>
                <h3 class="h3">{{ article.title }}</h3>
-               <h6 class="h6 w-50"> {{ article.content }}</h6>
+               <h6 class="h6 w-50"> {{ article.content_preview }}</h6>
             </div>
-            <p class="caption font-bold">{{ article.created_at }} | {{ article.nickname }} </p>
+            <p class="caption font-bold">{{ article.time_ago }} | {{ article.author }} </p>
          </div>
          <div class="w-full flex gap-5 items-center justify-center my-4">
             <div class="flex gap-2">
-               <CommentIcon />
-               <h5 class="h5">{{ article.comments }}</h5>
-            </div>
-            <div class="flex gap-2">
                <LikeIcon />
-               <h5 class="h5">{{ article.likes }}</h5>
+               <h5 class="h5">{{ article.likes_count }}</h5>
             </div>
             <div class="flex gap-2">
-               <ScrapIcon />
-               <h5 class="h5">{{ article.scraps }}</h5>
+               <CommentIcon />
+               <h5 class="h5">{{ article.total_comments }}</h5>
             </div>
          </div>
       </div>
@@ -55,110 +51,27 @@ import { useRouter } from 'vue-router'
 import useArticleComposable from '@/composables/useArticle';
 
 const router = useRouter()
+const articles = ref([])
+const useArticle = useArticleComposable()
+
+onMounted(async () => {
+   const data = await useArticle.getArticleList({})
+   articles.value = data.articles
+   console.log(articles)
+})
 
 const goArticle3 = () => {
    router.push({ name: 'create_article' })
 }
-
-const goDetail_article = () => {
-   router.push({ name: 'detail_article'})
-}
-
 const goArticle1_2 = () => {
    router.push({ name: 'article_search'})
 }
-const menus = [
-   { name: '최신글' },
-   { name: '인기글' },
-]
 
-const articles = ref([])
-const useArticle = useArticleComposable()
-onMounted(async () => {
-   const data = await useArticle.getArticleList({})
-   articles.value = data.articles
-})
+const goDetail_article = (articleId) => {
+   router.push({ name: 'detail_article', params:{id:articleId}})
+}
 
-const scroll = ref(0)
-watch(scroll.value, () => {
-   
-})
-// const {articles, total_pages, total_items} = useArticle.getArticleList({}) // useArticle 에서 요청
 
-// // const articles = ref([
-//    {
-//       title: '게시글입니다1.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다2.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다3.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다4.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다5.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다6.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다7.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-//    {
-//       title: '게시글입니다8.',
-//       content: '게시글 내용은 60자만 출력하고 나머지는 생략하고 싶어여기에서 다음줄로 넘어가고',
-//       created_at: '12시간 전',
-//       nickname: '금쪼기',
-//       comments: 50000,
-//       likes: 1027000,
-//       scraps: 1027000
-//    },
-// // ])
 </script>
 
 <style scoped>
