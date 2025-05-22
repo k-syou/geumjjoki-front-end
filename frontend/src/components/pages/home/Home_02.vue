@@ -30,7 +30,7 @@
         <!-- 누적 경험치 -->
         <div class="bg-gray-600 h-4 rounded-full" style="width: 40%;" id="progress-bar">
           <!-- 말풍선 -->
-           <!-- left 값은 누적 경험치 바의 width값과 동일하게 해야 함 -->
+          <!-- left 값은 누적 경험치 바의 width값과 동일하게 해야 함 -->
           <div class="absolute left-40 -translate-x-1/2 -top-10">
             <div class="bg-gray-600 text-gray-100 h4 px-3 py-1 rounded-md relative">
               30,000
@@ -69,7 +69,7 @@
         <RewardIcon />
         <p class="p1 cursor-pointer"> 리워드 교환</p>
       </div>
-      <div @click = "goChallenge1" class="flex gap-4 items-center mb-7">
+      <div @click="goChallenge1" class="flex gap-4 items-center mb-7">
         <ChallengeIcon color='cocoa-600' />
         <p class="p1 cursor-pointer"> 챌린지 도전</p>
       </div>
@@ -84,7 +84,7 @@
     <div>
       <div class="flex gap-4 items-center mb-7" @click='goHome3'>
         <UserInfoUpdateIcon />
-        <p class="p1 cursor-pointer"> 회원정보 수정</p>
+        <p class="p1 cursor-pointer"> 회원정보 확인</p>
       </div>
       <div class="flex gap-4 items-center mb-7" @click='goHome4'>
         <PasswordChangeIcon />
@@ -133,6 +133,4 @@ const goChallenge1 = () => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

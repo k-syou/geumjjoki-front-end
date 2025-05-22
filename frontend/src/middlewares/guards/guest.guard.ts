@@ -1,5 +1,5 @@
 // src/middlewares/guards/guest.guard.ts 파일 생성
-import { useAuthStore } from "@/stores/auth";
+import { useAuthStore } from "@/stores/authStore";
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 export const guestGuard = (

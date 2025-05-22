@@ -2,7 +2,7 @@
   <!-- 제목부분 -->
   <div class="relative flex items-center justify-center w-full">
     <LeftArrow @click="goHome2" class="absolute top-1/2 -translate-y-1/2 left-10 cursor-pointer" />
-    <h3 class="h3 font-bold"> 회원정보 수정 </h3>
+    <h3 class="h3 font-bold"> 회원정보 확인 </h3>
   </div>
 
   <!-- 로그인 form(disabled) -->
@@ -32,7 +32,7 @@
   <!-- 로그 아웃, 회원 탈퇴 -->
   <div class="w-full mt-9 flex flex-col gap-2 items-center">
     <p class="p text-red-600 font-bold underline cursor-pointer" @click="handleLogout">로그아웃</p>
-    <p class="p text-gray-500 font-bold cursor-pointer">회원 탈퇴</p>
+    <p class="p text-gray-500 font-bold cursor-pointer" @click="handleDeleteUser">회원 탈퇴</p>
   </div>
 
 </template>
@@ -40,10 +40,12 @@
 <script setup>
 import LeftArrow from '@/components/common/icons/LeftArrow.vue';
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/authStore'
+import useUserComposable from '@/composables/useUser';
 
 const authStore = useAuthStore()
 const router = useRouter()
+const useUser = useUserComposable()
 
 const goHome2 = () => {
   router.push({ name: 'home2' })
@@ -51,6 +53,14 @@ const goHome2 = () => {
 
 const handleLogout = async () => {
   await authStore.logout()
+}
+
+const handleDeleteUser = async () => {
+  const confirm = window.confirm('회원 탈퇴 하시겠습니까?')
+  if (confirm) {
+    await useUser.deleteUser()
+    router.push({ name: 'login' })
+  }
 }
 </script>
 
