@@ -15,11 +15,10 @@
           <TrashIcon />
           <h3>삭제</h3>
         </div>
-        <RightArrow width="16" height="16" @click="openDeletePopup"/>
+        <RightArrow width="16" height="16" class="cursor-pointer" @click="handleDeleteComment"/>
       </div>
     </div>
   </div>
-  <DeletePopupModal v-if="showDeletePopup"  @close="closeDeletePopup" />
 </template>
 
 <script setup>
@@ -28,25 +27,25 @@ import TrashIcon from '@/components/common/icons/TrashIcon.vue';
 import RightArrow from '../common/icons/RightArrow.vue';
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import DeletePopupModal from '@/components/modal/DeletePopupModal.vue'
-
+import useArticleComposable from '@/composables/useArticle'
+const useArticle = useArticleComposable()
 const router = useRouter()
-
-const emit = defineEmits(['close'])
+const props = defineProps({
+  articleId: Number,
+  commentId: Number,
+})
+const emit = defineEmits(['close', 'delete'])
 
 const goToUpdate = () => {
   router.push({ name: 'create_article' });
 };
 
-
-const showDeletePopup = ref(false) // ✅ 상태 추가
-const openDeletePopup = () => {
-  showDeletePopup.value = true
+const handleDeleteComment = async () => {
+    // 삭제 요청
+    emit('delete')
+    // await useArticle.deleteComment(props.articleId,props.commentId)
+  
 }
-const closeDeletePopup = () => {
-  showDeletePopup.value = false
-}
-
 
 
 </script>

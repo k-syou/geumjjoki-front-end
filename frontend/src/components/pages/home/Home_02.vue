@@ -37,10 +37,8 @@
           id="progress-bar"
         >
           <!-- 말풍선 -->
-          <div
-            class="absolute -translate-x-1/2 -top-10"
-            :style="`left: ${(userData?.user_profile?.exp ?? 0) / 1000}%`"
-          >
+          <!-- left 값은 누적 경험치 바의 width값과 동일하게 해야 함 -->
+          <div class="absolute left-40 -translate-x-1/2 -top-10">
             <div class="bg-gray-600 text-gray-100 h4 px-3 py-1 rounded-md relative">
               {{ userData?.user_profile?.exp ?? 0 }}
               <div class="w-3 h-3 bg-gray-600 rotate-45 left-1/2 absolute -translate-x-1/2 -bottom-1.5"></div>
@@ -92,7 +90,7 @@
     <div>
       <div class="flex gap-4 items-center mb-7" @click='goHome3'>
         <UserInfoUpdateIcon />
-        <p class="p1 cursor-pointer"> 회원정보 수정</p>
+        <p class="p1 cursor-pointer"> 회원정보 확인</p>
       </div>
       <div class="flex gap-4 items-center mb-7" @click='goHome4'>
         <PasswordChangeIcon />
@@ -142,5 +140,4 @@ const goChallenge1 = () => router.push({ name: 'challenge' });
 const goArticle1 = () => router.push({ name: 'article' });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

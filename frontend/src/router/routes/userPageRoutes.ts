@@ -8,6 +8,7 @@ export const userPageRoutes = [
     component: UserView,
     meta: {
       layout: MobileLayout,
+      requiresAuth: true,
     },
     children: [
     ],

@@ -79,7 +79,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import BackIcon from '@/components/common/icons/BackIcon.vue'
 import StarImg from '@/assets/images/star.png'
 
-import { useUserStore } from '@/stores/userStore'
+// import 'swiper/css/pagination';
+// import 'swiper/css/navigation';
+import { useAuthStore } from '@/stores/authStore';
+import { useUserStore } from '@/stores/userStore';
 import challengesService from '@/services/api/challenges'
 import type { Challenge, UserChallenge } from '@/types/challenges'
 
