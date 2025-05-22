@@ -24,9 +24,8 @@
         </div>
     </section>
     <div class="mt-3 flex gap-4 justify-center">
-        <div class="flex gap-2 items-center">
-            <LikeIcon :fillcolor="article.isLiked ? 'red' : 'none'"
-                :color="article.isLiked ? 'transparent' : 'gray-600'" />
+        <div @click="onIsLiked(article)" class="flex gap-2 items-center  cursor-pointer">
+            <LikeIcon :fillcolor="article.isLiked ? 'red' : 'none'" :color="article.isLiked ? 'none' : 'gray-600'" />
             <h5 class="h5">좋아요 {{ article.likes_count }}</h5>
         </div>
         <div class="flex gap-2 items-center">
@@ -44,9 +43,8 @@
                     <img :src="comment.author_profile_image" alt="프로필이미지" class="w-5 h-5">
                     <p class="caption fw-bold"> {{ comment.author }} </p>
                 </div>
-                <div class="px-4 w-22 h-5 bg-gray-400 rounded-md flex items-center gap-1">
+                <div class="px-4 w-15 h-5 bg-gray-400 rounded-md flex items-center gap-1">
                     <LikeIcon />
-                    <CommentIcon />
                     <ThreeDotsIcon width='11' height='20' class="cursor-pointer"
                         @click="() => goOptionModal(comment.comment_id)" />
                 </div>
@@ -61,29 +59,57 @@
                     </div>
                     <div class="flex items-center gap-1">
                         <LikeIcon color='red-600' />
-                        <h5 class="h5">30000</h5>
+                        <h5 class="h5">{{ comment.likes_count }}</h5>
                     </div>
+                    <h6 class="h5 underline cursor-pointer" @click="focusInput()">댓글달기</h6>
                 </div>
             </div>
+            <!-- 대댓글 -->
+            <section v-for="reply in comment.replies" :key="reply.comment_id">
+                <div class="flex gap-1 mt-5">
+                    <DownRightIcon />
+                    <div class="w-full">
+                        <div class="flex justify-between">
+                            <div class="flex items-center gap-1 mb-3">
+                                <img :src="reply.author_profile_image" alt="프로필이미지" class="w-5 h-5">
+                                <p class="caption fw-bold"> {{ reply.author }} </p>
+                            </div>
+                            <div class="px-4 w-22 h-5 bg-gray-400 rounded-md flex items-center gap-1">
+                                <LikeIcon />
+                                <ThreeDotsIcon width='11' height='20' class="cursor-pointer"
+                                    @click="() => goOptionModal(reply.comment_id)" />
+                            </div>
+                        </div>
+                        <div>
+                            <h5 class=" h5 mb-1">{{ reply.content }}</h5>
+                            <div class="flex items-center gap-4">
+                                <h6 class="h6">{{ reply.time_ago }}</h6>
+                                <div class="flex items-center gap-1">
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <LikeIcon color='red-600' />
+                                    <h5 class="h5">{{ reply.likes_count }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
     </div>
 
     <!-- 하단 댓글 입력창 -->
     <form @submit.prevent="handleCreateComment"
         class='absolute bottom-30 left-10 w-90 h-8 bg-gray-400 rounded-3xl px-4 flex justify-between items-center'>
-        <input placeholder="댓글을 남겨보세요" class="caption fw-bold text-gray-600 w-90" v-model="commentinput"
-            @keyup.enter="handleCreateComment"></input>
+        <input ref="inputRef" placeholder="댓글을 남겨보세요" class="caption fw-bold text-gray-600 w-90" v-model="commentinput"
+            @keyup.enter="handleCreateComment" ></input>
         <SendingIcon class="cursor-pointer" @click="handleCreateComment" />
     </form>
 
 
 
-    <UpdateDeleteOptionModal 
-    v-if="showModal" 
-    :articleId="selectedArticleId" 
-    :commentId="selectedCommentId"
-    @close="showModal = false" 
-    @delete="handleDeleteComment"/>
+    <UpdateDeleteOptionModal v-if="showModal" :articleId="selectedArticleId" :commentId="selectedCommentId"
+        @close="showModal = false" @delete="handleDeleteComment" />
 </template>
 
 <script setup lang="ts">
@@ -101,6 +127,7 @@ import { useRouter, useRoute } from 'vue-router';
 import useArticleComposable from '@/composables/useArticle';
 import type { ArticleDetail, Comment, ParentComment } from '@/types/article';
 
+const inputRef = ref(null)
 const useArticle = useArticleComposable()
 const route = useRoute()
 const article = ref<ArticleDetail>({})
@@ -116,9 +143,9 @@ onMounted(async () => {
     console.log(comments.value)
 })
 
-// for comment in comments:
-//     for reply in comment.replies:
-    
+const focusInput = () => {
+    inputRef.value.focus()
+}
 
 const handleDeleteComment = async () => {
 
@@ -129,12 +156,23 @@ const handleCreateComment = async () => {
     const request = {
         content: commentinput.value
     }
-    const newComment:ParentComment = await useArticle.createComment(articleId, request)
+    const newComment: ParentComment = await useArticle.createComment(articleId, request)
     comments.value.push(newComment)
     commentinput.value = ''
     comments.value = await useArticle.getCommentList(articleId)
-    
 }
+
+const handleCreatereplies = async (parent_comment_id) => {
+    // 포스트 요청
+    const request = {
+        content: commentinput.value,
+        parent_comment_id: parent_comment_id
+    }
+    const newreply: comment = await useArticle.createComment(articleId, request)
+    comments.value.parent_comment_id.replies.push(newreply)
+    commentinput.value = ''
+}
+
 
 const selectedArticleId = ref<number>(-1)
 const selectedCommentId = ref<number>(-1)
@@ -151,6 +189,21 @@ const goArticle1 = () => {
     router.back()
     // router.push({ name: 'article' })
 }
+
+const onIsLiked = (article) => {
+    console.log(article)
+    if (article.is_liked) {
+        article.likes_count--
+    } else {
+        article.likes_count++
+    }
+    article.is_liked = !article.is_liked
+}
+// 좋아요 백엔드 호출
+
+
+
+
 </script>
 
 <style scoped>

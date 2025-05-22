@@ -1,11 +1,11 @@
 import articleService from "@/services/api/articleService"
-import type { ArticleDetail, ArticleListRequest, createArticleRequest, Comment, createCommentRequest, ParentComment } from "@/types/article"
+import type { ArticleDetail, ArticleList, ArticleListRequest, createArticleRequest, Comment, createCommentRequest, ParentComment } from "@/types/article"
 
 
 const useArticleComposable = () => {
     const getArticleList = async (request: ArticleListRequest) => {
         const data = await articleService.getArticleList(request)
-        return data
+        return data 
     }
     const createArticle = async (request: createArticleRequest) => {
         const data = await articleService.createArticle(request)
@@ -13,7 +13,7 @@ const useArticleComposable = () => {
     }
     const getArticleDetail = async (articleId: number) => {
         const data = await articleService.getArticleDetail(articleId);
-        return data.article as ArticleDetail
+        return data as ArticleDetail
     }
 
     const updateArticle = async (articleId: number) => {
@@ -31,6 +31,10 @@ const useArticleComposable = () => {
         const data = await articleService.createComment(articleId, request)
         return data as ParentComment
     }
+    const createReply = async (articleId: number, request: createCommentRequest) => {
+        const data = await articleService.createComment(articleId, request)
+        return data as Comment
+    }
 
     const deleteComment = async (articleId: number, commentId: number) => {
         await articleService.deleteComment(articleId, commentId)
@@ -38,7 +42,7 @@ const useArticleComposable = () => {
 
 
 
-    return { getArticleList, createArticle, getArticleDetail, getCommentList, createComment, deleteComment, updateArticle }
+    return { getArticleList, createArticle, getArticleDetail, getCommentList, createComment, deleteComment, updateArticle, createReply }
 }
 
 

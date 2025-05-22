@@ -13,9 +13,9 @@
 
    <!-- 게시글 -->
    <div class="mt-9 w-full max-h-full overflow-y-auto pb-6 scrollbar-hide">
-      <div v-for="article in articles" :key=article.article_id
+      <div v-for="article in articles" :key="article.article_id" @click = "goDetail_article(article.article_id)" 
        class="ps-6 pe-4 w-full border-t border-b border-gray-600 cursor-pointer">
-         <div @click = "goDetail_article(article.article_id)" class="flex items-center justify-between my-5">
+         <div class="flex items-center justify-between my-5">
             <div>
                <h3 class="h3">{{ article.title }}</h3>
                <h6 class="h6 w-50"> {{ article.content_preview }}</h6>
@@ -24,12 +24,12 @@
          </div>
          <div class="w-full flex gap-5 items-center justify-center my-4">
             <div class="flex gap-2">
-               <CommentIcon />
-               <h5 class="h5">{{ article.total_comments }}</h5>
-            </div>
-            <div class="flex gap-2">
                <LikeIcon />
                <h5 class="h5">{{ article.likes_count }}</h5>
+            </div>
+            <div class="flex gap-2">
+               <CommentIcon />
+               <h5 class="h5">{{ article.total_comments }}</h5>
             </div>
          </div>
       </div>
@@ -51,33 +51,26 @@ import { useRouter } from 'vue-router'
 import useArticleComposable from '@/composables/useArticle';
 
 const router = useRouter()
-
-const goArticle3 = () => {
-   router.push({ name: 'create_article' })
-}
-
-
-const goArticle1_2 = () => {
-   router.push({ name: 'article_search'})
-}
-const menus = [
-   { name: '최신글' },
-   { name: '인기글' },
-]
-
 const articles = ref([])
 const useArticle = useArticleComposable()
+
 onMounted(async () => {
    const data = await useArticle.getArticleList({})
    articles.value = data.articles
    console.log(articles)
 })
 
+const goArticle3 = () => {
+   router.push({ name: 'create_article' })
+}
+const goArticle1_2 = () => {
+   router.push({ name: 'article_search'})
+}
+
 const goDetail_article = (articleId) => {
    router.push({ name: 'detail_article', params:{id:articleId}})
 }
 
- 
 
 </script>
 
