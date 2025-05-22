@@ -8,16 +8,18 @@
         <h3 class="h3 fw-black text-gold-600">GEUMJJOKI</h3>
       </div>
       <div>
-        <HambergerIcon @click='goHome2' class="cursor-pointer" />
+        <HambergerIcon @click="goHome2" class="cursor-pointer" />
       </div>
     </div>
 
     <!-- 프로필 -->
     <div class="mx-auto w-fit flex flex-col gap-5">
-      <h3 class="w-full h-12 h3"><span class="h2 fw-bold">{{ user?.username }}님</span> 반갑습니다.</h3>
+      <h3 class="w-full h-12 h3">
+        <span class="h2 fw-bold">{{ userData?.username }}님</span> 반갑습니다.
+      </h3>
       <div class="w-41 h-7 px-3 bg-gold-200 rounded-2xl flex items-center justify-between">
         <img src="@/assets/images/point.png" alt="point">
-        <p class="block h4">{{ user?.user_profile?.mileage ?? 0 }}P</p>
+        <p class="block h4">{{ userData?.user_profile?.mileage ?? 0 }}P</p>
       </div>
 
       <!-- 카드 -->
@@ -84,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { storeToRefs } from 'pinia'
@@ -105,6 +107,8 @@ const gifticons = [Gifticon1, Gifticon2, Gifticon3, Gifticon4]
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
+const userData = computed(() => (user.value as any)?.data)
+
 const rewards = ref<Reward[]>([])
 const router = useRouter()
 
@@ -131,4 +135,6 @@ const challenges = ref([
 ])
 </script>
 
-<style scoped></style>
+<style scoped>
+/* 스타일은 여기에 필요 시 추가 */
+</style>

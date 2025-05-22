@@ -19,7 +19,7 @@
     <!-- 포인트 -->
     <div class="self-start flex items-center justify-between h-7 w-30 bg-gold-200 rounded-full px-2.5 py-1 ml-6 mt-5">
       <img src="@/assets/images/star.png" alt="별" class="w-4.5 h-4.5" />
-      <h4 class="h4">{{ userStore.user?.user_profile.mileage }}P</h4>
+      <h4 class="h4">{{ userData?.user_profile?.mileage ?? 0 }}P</h4>
     </div>
 
     <!-- 카테고리 탭 -->
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import sort from '@/components/common/icons/sort.vue'
 import BackIcon from '@/components/common/icons/BackIcon.vue'
@@ -83,6 +83,8 @@ import Gifticon3 from '@/assets/images/gifticon3.png'
 
 const userStore = useUserStore()
 const router = useRouter()
+
+const userData = computed(() => (userStore.user as any)?.data)
 
 const selectedProduct = ref<Reward | null>(null)
 const list = ref<Reward[]>([])
