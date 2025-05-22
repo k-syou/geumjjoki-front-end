@@ -15,16 +15,16 @@
       <!-- 상품명 / 가격 -->
       <div class="pt-5 pb-2">
         <div class="flex justify-between h-9">
-          <h4 class="h4 text-cocoa-500">{{ product.name }}</h4>
-          <h4 class="h4 text-cocoa-500">{{ product.cost }}P</h4>
+          <h4 class="text-cocoa-500 font-extrabold">{{ product.name }}</h4>
+          <h4 class="text-cocoa-500 font-extrabold">{{ product.cost }}P</h4>
         </div>
 
         <!-- 상품 설명 -->
         <div class="bg-gray-300 w-full h-28.25 px-2 py-2 rounded-md text-left">
-          <h4 class="h4 text-cocoa-500 mb-1">상품설명</h4>
-          <p class="text-sm text-gray-700 whitespace-pre-line">
+          <h4 class="text-cocoa-500 mb-1 font-extrabold">상품설명</h4>
+          <h4 class="text-cocoa-500 font-extrabold whitespace-pre-line">
             {{ product.description || '상품설명이 없습니다.' }}
-          </p>
+          </h4>
         </div>
       </div>
 

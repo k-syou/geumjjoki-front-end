@@ -5,7 +5,7 @@
       <div class="relative flex items-center h-7 mx-6">
         <h3 class="h3 mx-auto text-cocoa-600">리워드</h3>
         <button class="absolute left-0 top-1/2 transform -translate-y-1/2">
-          <BackIcon color="black" class="cursor-pointer" />
+          <BackIcon color="black" class="cursor-pointer" @click="goBack" />
         </button>
       </div>
     </div>
@@ -53,9 +53,9 @@
 
           <!-- 텍스트 -->
           <div class="h-9.5">
-            <p class="text-xs caption">{{ item.description || '카테고리 없음' }}</p>
-            <p class="text-xs caption">{{ item.name }}</p>
-            <p class="text-xs caption font-bold">{{ item.cost }}P</p>
+            <p class="text-xs font-bold">카테고리</p>
+            <p class="text-xs font-bold">{{ item.name }}</p>
+            <p class="text-xs font-bold">{{ item.cost }}P</p>
           </div>
         </div>
       </div>
@@ -102,6 +102,9 @@ onMounted(async () => {
     console.error('리워드 가져오기 실패:', error)
   }
 })
+
+const goBack = () => router.back()
+
 </script>
 
 <style scoped>

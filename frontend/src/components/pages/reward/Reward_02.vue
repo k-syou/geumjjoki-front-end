@@ -5,7 +5,7 @@
       <div class="relative flex items-center h-7 mx-6">
         <h3 class="h3 mx-auto text-cocoa-600">리워드</h3>
         <button class="absolute left-0 top-1/2 transform -translate-y-1/2">
-          <BackIcon color="black" class="cursor-pointer" />
+          <BackIcon color="black" class="cursor-pointer" @click="goBack" />
         </button>
       </div>
     </div>
@@ -147,6 +147,9 @@ const goToProductList = () => {
 }
 
 onMounted(fetchData)
+
+const goBack = () => router.back()
+
 </script>
 
 <style scoped>

@@ -1,37 +1,63 @@
 <template>
   <main class="px-5 w-full py-16 overflow-hidden">
-    <!-- header -->
+    <!-- Header -->
     <header class="w-full flex justify-center items-center mb-5 relative">
-      <back-icon @click="goBack" color="black" class="absolute top-1/2 -translate-y-1/2 left-0"></back-icon>
+      <back-icon @click="goBack" color="black" class="absolute top-1/2 -translate-y-1/2 left-0" />
       <span class="h3">챌린지 상세</span>
     </header>
 
-    <!-- content -->
     <section class="w-full flex flex-col items-center">
-      <!-- image -->
-      <div class="w-53 h-53 bg-gray-600 rounded-full mx-auto mb-5"></div>
+      <!-- 이미지 -->
+      <div class="w-53 h-53 bg-gray-500 rounded-full mx-auto mb-5"></div>
 
-      <!-- title -->
+      <!-- 제목 및 마감일 -->
       <div class="flex flex-col items-center mb-8">
-        <div class="h4 fw-black text-gray-600">마감 1일전</div>
-        <div class="h3 text-black">챌린지명을 입력하세요</div>
+        <div class="h4 fw-black text-gray-600">
+          {{ challengeDetail ? getDday(challengeDetail.end_date) : '' }}
+        </div>
+        <div class="h3 text-black">
+          {{ challengeDetail?.title || '챌린지명을 입력하세요' }}
+        </div>
       </div>
 
-      <!-- challenge button -->
-      <button
-        class="w-41 h-16  rounded-full mb-10"
-        :class="challengeDetailData.status === '도전중' ? 'bg-gold-200':'bg-gold-400'"
+      <!-- 버튼 -->
+      <div
+        v-if="userStatus"
+        class="w-41 h-16 rounded-full mb-10 flex items-center justify-center"
+        :class="{
+          'bg-minty-400': userStatus === '성공',
+          'bg-gray-600': userStatus === '실패',
+          'bg-gray-400': userStatus === '종료'
+        }"
+      >
+        <div
+          class="h2 fw-bold"
+          :class="{
+            'text-cocoa-600': ['성공', '실패'].includes(userStatus),
+            'text-black': userStatus === '종료'
+          }"
         >
-        <div class="h2 fw-bold">{{ challengeDetailData.status }}</div>
+          {{ userStatus }}
+        </div>
+      </div>
+      <button
+        v-else
+        class="w-41 h-16 rounded-full mb-10"
+        :class="isChallenging ? 'bg-gold-200' : 'bg-gold-400'"
+        @click="startChallenge"
+      >
+        <div class="h2 fw-bold">
+          {{ isChallenging ? '도전중' : '도전하기' }}
+        </div>
       </button>
 
-      <!-- challenge detail -->
+      <!-- 상세 정보 -->
       <div class="w-full bg-white shadow-2xl rounded-4xl py-5.5 px-5">
         <div class="h3 fw-black mb-7">챌린지 안내</div>
         <div class="flex flex-col gap-4 h4 text-cocoa-600">
-          <div v-for="key in keys" :key="key" class="flex justify-between">
-            <div>{{ titleMapping[key] }}</div>
-            <div>{{ detailData[key] }}</div>
+          <div v-for="(value, key) in detailData" :key="key" class="flex justify-between">
+            <div>{{ key }}</div>
+            <div>{{ value }}</div>
           </div>
         </div>
       </div>
@@ -40,58 +66,85 @@
 </template>
 
 <script setup lang="ts">
-import BackIcon from '@/components/common/icons/BackIcon.vue';
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import challengesService from '@/services/api/challenges'
+import BackIcon from '@/components/common/icons/BackIcon.vue'
+import type { ChallengeDetail, UserChallenge } from '@/types/challenges'
+import { useUserStore } from '@/stores/userStore'
 
 const router = useRouter()
-const goBack = () => {
-  router.back()
+const route = useRoute()
+const challengeId = Number(route.params.id)
+
+const userStore = useUserStore()
+const userData = computed(() => (userStore.user as any)?.data)
+const userId = userData.value?.id || 1
+
+const challengeDetail = ref<ChallengeDetail | null>(null)
+const userChallenges = ref<UserChallenge[]>([])
+const isChallenging = ref(false)
+
+const goBack = () => router.back()
+
+const getDday = (end: string) => {
+  if (userStatus.value === '성공' || userStatus.value === '실패') {
+    return '종료됨'
+  }
+  const today = new Date()
+  const deadline = new Date(end)
+  const diff = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+  return diff > 0 ? `마감 ${diff}일전` : '마감됨'
 }
 
-// 키 타입 정의
-type ChallengeKey = 'title' | 'goal' | 'howToParticipate' | 'point' | 'date';
-
-const titleMapping = ref<Record<ChallengeKey, string>>({
-  title: '챌린지명',
-  goal: '목표',
-  howToParticipate: '참여 방법',
-  point: '보상',
-  date: '진행 기간',
-})
-
-const keys = ['title', 'goal', 'howToParticipate', 'point', 'date'] as const;
-
-// 상세 데이터 타입 정의
-interface ChallengeDetail {
-  title: string;
-  goal: string;
-  howToParticipate: string;
-  point: number;
-  startDate: string;
-  endDate: string;
-  status: string;
+const formatDate = (iso: string) => {
+  const d = new Date(iso)
+  const yy = d.getFullYear().toString().slice(2)
+  const mm = String(d.getMonth() + 1).padStart(2, '0')
+  const dd = String(d.getDate()).padStart(2, '0')
+  return `${yy}.${mm}.${dd}`
 }
 
-const challengeDetailData = ref<ChallengeDetail>({
-  title: '배달음식 줄이기',
-  goal: '1주일동안 배달음식 3회만 시켜먹기',
-  howToParticipate: '식사 전 사진 인증',
-  point: 300,
-  startDate: '25.01.01',
-  endDate: '25.01.28',
-  status: '도전하기'
-})
-
-const detailData = computed<Record<ChallengeKey, string | number>>(() => {
-  return {
-    title: challengeDetailData.value.title,
-    goal: challengeDetailData.value.goal,
-    howToParticipate: challengeDetailData.value.howToParticipate,
-    point: challengeDetailData.value.point + 'P',
-    date: challengeDetailData.value.startDate + ' - ' + challengeDetailData.value.endDate
+onMounted(async () => {
+  try {
+    const [detail, successList, failList] = await Promise.all([
+      challengesService.fetchChallengeDetail(challengeId),
+      challengesService.fetchPersonalChallenges(1, userId),
+      challengesService.fetchPersonalChallenges(2, userId)
+    ])
+    challengeDetail.value = detail
+    userChallenges.value = [...successList, ...failList]
+  } catch (e) {
+    console.error('챌린지 상세 조회 실패', e)
   }
 })
+
+const userStatus = computed(() => {
+  const matched = userChallenges.value.find(
+    (uc) => uc.challenge_id === challengeDetail.value?.challenge_id
+  )
+  if (matched?.status) return matched.status
+  if (challengeDetail.value && new Date(challengeDetail.value.end_date) < new Date()) {
+    return '종료'
+  }
+  return ''
+})
+
+const detailData = computed(() => {
+  if (!challengeDetail.value) return {}
+  const c = challengeDetail.value
+  return {
+    챌린지명: c.title,
+    목표: c.content || '설정된 목표 없음',
+    '참여 방법': c.howToParticipate || '미구현',
+    보상: `${c.point || 0}P`,
+    '진행 기간': `${formatDate(c.start_date)} - ${formatDate(c.end_date)}`
+  }
+})
+
+const startChallenge = () => {
+  alert('도전 기능은 아직 미구현입니다.')
+}
 </script>
 
 <style scoped></style>

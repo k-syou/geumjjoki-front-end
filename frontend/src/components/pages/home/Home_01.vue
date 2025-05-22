@@ -4,12 +4,10 @@
     <!-- 타이틀 -->
     <div class="w-full h-12 h3 fw-black flex items-center justify-between pl-6 pr-11">
       <div class="flex items-center">
-        <img src="@/assets/images/geumjjoki_logo.png" width="32px" height="32px" alt="">
+        <img src="@/assets/images/geumjjoki_logo.png" width="32px" height="32px" alt="" />
         <h3 class="h3 fw-black text-gold-600">GEUMJJOKI</h3>
       </div>
-      <div>
-        <HambergerIcon @click="goHome2" class="cursor-pointer" />
-      </div>
+      <HambergerIcon @click="goHome2" class="cursor-pointer" />
     </div>
 
     <!-- 프로필 -->
@@ -18,7 +16,7 @@
         <span class="h2 fw-bold">{{ userData?.username }}님</span> 반갑습니다.
       </h3>
       <div class="w-41 h-7 px-3 bg-gold-200 rounded-2xl flex items-center justify-between">
-        <img src="@/assets/images/point.png" alt="point">
+        <img src="@/assets/images/point.png" alt="point" />
         <p class="block h4">{{ userData?.user_profile?.mileage ?? 0 }}P</p>
       </div>
 
@@ -72,12 +70,12 @@
 
     <div class="w-full items-center mt-3">
       <swiper :slides-per-view="2.5" :space-between="100" :loop="true" :grab-cursor="true" class="w-full">
-        <swiper-slide v-for="(challenge, index) in challenges" :key="index">
+        <swiper-slide v-for="challenge in challengeList" :key="challenge.challenge_id">
           <div class="h-30 w-43 bg-gray-300 rounded-3xl px-5 py-4 flex-col gap-1">
-            <p class="h4 fw-black">{{ challenge.category }}</p>
-            <p class="h4">{{ challenge.name }}</p>
-            <p class="h4">{{ challenge.point }}</p>
-            <p class="h6">{{ challenge.valid }}</p>
+            <p class="h4 fw-black">{{ challenge.category || '카테고리' }}</p>
+            <p class="h4">{{ challenge.title }}</p>
+            <p class="h4">{{ challenge.point || 0 }}P</p>
+            <p class="h6">{{ formatDate(challenge.start_date) }} - {{ formatDate(challenge.end_date) }}</p>
           </div>
         </swiper-slide>
       </swiper>
@@ -90,13 +88,18 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { storeToRefs } from 'pinia'
+
 import ExpenseIcon from '@/components/common/icons/ExpenseIcon.vue'
 import ChallengeIcon from '@/components/common/icons/ChallengeIcon.vue'
 import HambergerIcon from '@/components/common/icons/HambergerIcon.vue'
 import RightArrow from '@/components/common/icons/RightArrow.vue'
+
 import useRewardsComposable from '@/composables/useRewards'
 import { useUserStore } from '@/stores/userStore'
+import challengesService from '@/services/api/challenges'
+
 import type { Reward } from '@/types/rewards'
+import type { Challenge } from '@/types/challenges'
 
 import Gifticon1 from '@/assets/images/gifticon1.png'
 import Gifticon2 from '@/assets/images/Gifticon2.png'
@@ -105,36 +108,38 @@ import Gifticon4 from '@/assets/images/Gifticon4.png'
 
 const gifticons = [Gifticon1, Gifticon2, Gifticon3, Gifticon4]
 
+const router = useRouter()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 const userData = computed(() => (user.value as any)?.data)
 
 const rewards = ref<Reward[]>([])
-const router = useRouter()
+const challengeList = ref<Challenge[]>([])
 
 const useRewards = useRewardsComposable()
 
-onMounted(async () => {
-  if (!user.value) await userStore.fetchUser()
-  try {
-    rewards.value = await useRewards.fetchRewardList()
-  } catch (error) {
-    console.error('리워드 목록 로딩 실패:', error)
-  }
-})
+const formatDate = (iso: string) => {
+  const d = new Date(iso)
+  const yy = d.getFullYear().toString().slice(2)
+  const mm = String(d.getMonth() + 1).padStart(2, '0')
+  const dd = String(d.getDate()).padStart(2, '0')
+  return `${yy}.${mm}.${dd}`
+}
 
 const goHome2 = () => router.push({ name: 'home2' })
 const goChallenge1 = () => router.push({ name: 'challenge' })
 const goReward1 = () => router.push({ name: 'reward' })
 
-const challenges = ref([
-  { category: '카테고리 1', name: '챌린지명 1', point: '2000P', valid: '25.01.01-25.01.31' },
-  { category: '카테고리 2', name: '챌린지명 2', point: '1000P', valid: '25.01.01-25.01.31' },
-  { category: '카테고리 3', name: '챌린지명 3', point: '3000P', valid: '25.01.01-25.01.31' },
-  { category: '카테고리 4', name: '챌린지명 4', point: '4000P', valid: '25.01.01-25.01.31' },
-])
+onMounted(async () => {
+  if (!user.value) await userStore.fetchUser()
+  try {
+    rewards.value = await useRewards.fetchRewardList()
+    const allChallenges = await challengesService.fetchChallengeList()
+    challengeList.value = allChallenges.filter(c => c.status === '예정')
+  } catch (error) {
+    console.error('데이터 로딩 실패:', error)
+  }
+})
 </script>
 
-<style scoped>
-/* 스타일은 여기에 필요 시 추가 */
-</style>
+<style scoped></style>
