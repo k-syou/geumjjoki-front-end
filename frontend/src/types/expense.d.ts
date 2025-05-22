@@ -1,15 +1,15 @@
 export interface Category {
-  id: number;
+  category_id: number;
   name: string;
-  parent: string;
+  parent: string | null;
 }
 
 export interface Expense {
-  expense_id: number;
-  date: string;       // "YYYY-MM-DD"
-  amount: number;
-  category: Category;
-  description: string;
+  expense_id: number
+  amount: number
+  date: string
+  description: string
+  category: Category | null
 }
 
 export interface Pagination {
