@@ -4,7 +4,9 @@
         <LeftArrow @click="goArticle1" class="absolute top-1/2 -translate-y-1/2 left-10 cursor-pointer" />
         <h3 class="h3 font-bold">게시글</h3>
 
-        <ThreeDotsIcon @click="goOptionModal" class="absolute top-1/2 -translate-1/2 right-3 cursor-pointer" />
+        <ThreeDotsIcon :commentId="selectedCommentId" :articleId="selectedArticleId"
+            @click="() => goOptionModal(article.article_id)" @delete="handleDeleteArticle()"
+            class="absolute top-1/2 -translate-1/2 right-3 cursor-pointer" />
     </div>
     <section class="w-full px-10">
         <div class="flex gap-3 mt-6">
@@ -24,13 +26,13 @@
         </div>
     </section>
     <div class="mt-3 flex gap-4 justify-center">
-        <div @click="onIsLiked(article)" class="flex gap-2 items-center  cursor-pointer">
+        <div @click="articleOnIsLiked(article)" class="flex gap-2 items-center  cursor-pointer">
             <LikeIcon :fillcolor="article.isLiked ? 'red' : 'none'" :color="article.isLiked ? 'none' : 'gray-600'" />
             <h5 class="h5">좋아요 {{ article.likes_count }}</h5>
         </div>
         <div class="flex gap-2 items-center">
             <CommentIcon />
-            <h5 class="h5">댓글 {{ comments.length }}</h5>
+            <h5 class="h5">댓글 {{ comments.length || 0 }}</h5>
         </div>
 
     </div>
@@ -46,7 +48,7 @@
                 <div class="px-4 w-15 h-5 bg-gray-400 rounded-md flex items-center gap-1">
                     <LikeIcon />
                     <ThreeDotsIcon width='11' height='20' class="cursor-pointer"
-                        @click="() => goOptionModal(comment.comment_id)" />
+                        @click="() => goOptionModal(article.article_id, comment.comment_id)" @delete="handleDeleteComment()" />
                 </div>
             </div>
             <div>
@@ -57,11 +59,12 @@
                         <CommentIcon color='minty-500' />
                         <h5 class="h5">{{ comment.replies.length }}</h5>
                     </div>
-                    <div class="flex items-center gap-1">
+                    <div @click="commentOnIsLiked(comment)"  class="flex items-center gap-1 cursor-pointer">
                         <LikeIcon color='red-600' />
-                        <h5 class="h5">{{ comment.likes_count }}</h5>
+                        <h5 class="h5 ">{{ comment.likes_count }}</h5>
                     </div>
                     <h6 class="h5 underline cursor-pointer" @click="focusInput()">댓글달기</h6>
+                    <!-- <h6 class="h5 underline cursor-pointer" @click="() => goOptionModal(article.article_id, comment.comment_id)" @delete="handleDeleteComment()">삭제</h6> -->
                 </div>
             </div>
             <!-- 대댓글 -->
@@ -99,17 +102,25 @@
     </div>
 
     <!-- 하단 댓글 입력창 -->
-    <form @submit.prevent="handleCreateComment"
-        class='absolute bottom-30 left-10 w-90 h-8 bg-gray-400 rounded-3xl px-4 flex justify-between items-center'>
-        <input ref="inputRef" placeholder="댓글을 남겨보세요" class="caption fw-bold text-gray-600 w-90" v-model="commentinput"
-            @keyup.enter="handleCreateComment" ></input>
-        <SendingIcon class="cursor-pointer" @click="handleCreateComment" />
+    <form 
+        @submit.prevent="handleCreateComment"
+        class='absolute bottom-30 left-10 w-90 h-8 bg-gray-400 rounded-3xl px-4 flex justify-between items-center'
+        >
+        <input 
+            ref="inputRef"
+            placeholder="댓글을 남겨보세요" 
+            class="caption fw-bold text-gray-600 w-90" 
+            v-model="commentinput"
+        />
+        <button type="submit">
+            <SendingIcon class="cursor-pointer"/>
+        </button>
     </form>
 
 
 
     <UpdateDeleteOptionModal v-if="showModal" :articleId="selectedArticleId" :commentId="selectedCommentId"
-        @close="showModal = false" @delete="handleDeleteComment" />
+        @close="showModal = false" @delete="handleDelete" />
 </template>
 
 <script setup lang="ts">
@@ -127,6 +138,7 @@ import { useRouter, useRoute } from 'vue-router';
 import useArticleComposable from '@/composables/useArticle';
 import type { ArticleDetail, Comment, ParentComment } from '@/types/article';
 
+
 const inputRef = ref(null)
 const useArticle = useArticleComposable()
 const route = useRoute()
@@ -135,35 +147,31 @@ const comments = ref<ParentComment[]>([])
 // const replies = ref<Comment[]>([])
 const commentinput = ref('')
 const articleId = Number(route.params.id)
+
 onMounted(async () => {
     console.log(articleId)
     article.value = await useArticle.getArticleDetail(articleId)
     console.log(article.value)
     comments.value = await useArticle.getCommentList(articleId)
-    console.log(comments.value)
 })
 
 const focusInput = () => {
     inputRef.value.focus()
 }
 
-const handleDeleteComment = async () => {
-
-}
-
 const handleCreateComment = async () => {
-    // 포스트 요청
     const request = {
         content: commentinput.value
     }
+    console.log('덧글 내용', commentinput.value)
     const newComment: ParentComment = await useArticle.createComment(articleId, request)
+    console.log('새로운 댓글 객체', newComment)
     comments.value.push(newComment)
     commentinput.value = ''
-    comments.value = await useArticle.getCommentList(articleId)
+    // comments.value = await useArticle.getCommentList(articleId)
 }
 
 const handleCreatereplies = async (parent_comment_id) => {
-    // 포스트 요청
     const request = {
         content: commentinput.value,
         parent_comment_id: parent_comment_id
@@ -177,7 +185,8 @@ const handleCreatereplies = async (parent_comment_id) => {
 const selectedArticleId = ref<number>(-1)
 const selectedCommentId = ref<number>(-1)
 const showModal = ref(false)
-const goOptionModal = (commentId: number) => {
+
+const goOptionModal = (aritcleId?: number, commentId?: number) => {
     const articleId = Number(route.params.id)
     selectedArticleId.value = articleId
     selectedCommentId.value = commentId
@@ -190,16 +199,53 @@ const goArticle1 = () => {
     // router.push({ name: 'article' })
 }
 
-const onIsLiked = (article) => {
-    console.log(article)
+const handleDeleteArticle = async (articleId) => {
+    console.log(articleId)
+    await useArticle.deleteArticle(articleId)
+    console.log("삭제 완료")
+    router.back()
+    showModal.value = false   
+}
+const handleDeleteComment = async (articleId, commentId) => {
+    await useArticle.deleteComment(articleId, commentId)
+    comments.value = comments.value.filter(comment => comment.comment_id !== commentId)
+    console.log("삭제 완료")
+    showModal.value = false   
+}
+
+const handleDelete = async (articleId, commentId) => {
+    console.log('commentId', commentId)
+    console.log('articleId', articleId)
+    if (commentId) {
+        await handleDeleteComment(articleId, commentId)
+    } else {
+        await handleDeleteArticle(articleId)
+    }
+}
+
+const articleOnIsLiked = async (article) => {
     if (article.is_liked) {
         article.likes_count--
     } else {
         article.likes_count++
     }
     article.is_liked = !article.is_liked
+    await useArticle.articleLikes(article.article_id)
+    console.log(article.is_liked)
+    
 }
-// 좋아요 백엔드 호출
+
+const commentOnIsLiked = async (comment) => {
+    console.log(comment)
+    if (comment.is_liked) {
+        comment.likes_count--
+    } else {
+        comment.likes_count++
+    }
+    comment.is_liked = !comment.is_liked
+    const data = await useArticle.commentLikes(comment.comment_id)
+    console.log(comment.is_liked)
+}
 
 
 
