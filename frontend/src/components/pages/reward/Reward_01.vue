@@ -19,7 +19,7 @@
     <!-- 포인트 -->
     <div class="self-start flex items-center justify-between h-7 w-30 bg-gold-200 rounded-full px-2.5 py-1 ml-6 mt-5">
       <img src="@/assets/images/star.png" alt="별" class="w-4.5 h-4.5" />
-      <h4 class="h4">1200P</h4>
+      <h4 class="h4">{{ userStore.user?.user_profile.mileage }}P</h4>
     </div>
 
     <!-- 카테고리 탭 -->
@@ -42,20 +42,20 @@
       <div class="grid grid-cols-2 gap-x-16 gap-y-4">
         <div
           v-for="item in list"
-          :key="item"
+          :key="item.reward_id"
           @click="selectedProduct = item"
           class="cursor-pointer"
         >
           <!-- 이미지 -->
           <div class="w-full h-29 mb-1.5 bg-gray-300 flex items-center justify-center rounded-md">
-            <h4 class="h4">제품 {{ item }}</h4>
+            <img :src="Gifticon3" alt="gifticon" class="w-36 h-25" />
           </div>
 
           <!-- 텍스트 -->
           <div class="h-9.5">
-            <p class="text-xs caption">카테고리</p>
-            <p class="text-xs caption">이름</p>
-            <p class="text-xs caption font-bold">1000P</p>
+            <p class="text-xs caption">{{ item.description || '카테고리 없음' }}</p>
+            <p class="text-xs caption">{{ item.name }}</p>
+            <p class="text-xs caption font-bold">{{ item.cost }}P</p>
           </div>
         </div>
       </div>
@@ -70,28 +70,42 @@
   />
 </template>
 
-<script setup lang='ts'>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import sort from '@/components/common/icons/sort.vue'
 import BackIcon from '@/components/common/icons/BackIcon.vue'
 import ProductModal from '@/components/pages/reward/ProductModal.vue'
+import useRewardsComposable from '@/composables/useRewards'
+import type { Reward } from '@/types/rewards'
+import { useUserStore } from '@/stores/userStore'
+import Gifticon3 from '@/assets/images/gifticon3.png'
 
-const selectedProduct = ref<number | null>(null)
-const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
+const userStore = useUserStore()
 const router = useRouter()
+
+const selectedProduct = ref<Reward | null>(null)
+const list = ref<Reward[]>([])
+
+const { fetchRewardList } = useRewardsComposable()
+
 const goToPurchaseHistory = () => {
   router.push({ name: 'reward_02' })
 }
 
+onMounted(async () => {
+  try {
+    list.value = await fetchRewardList()
+  } catch (error) {
+    console.error('리워드 가져오기 실패:', error)
+  }
+})
 </script>
 
-<style>
+<style scoped>
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
 .scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;

@@ -21,21 +21,22 @@ export const homeRoutes = [
         name: 'home',
         component: Home_01,
       },
-      {
-        path: '/mypage',
-        name: 'home2',
-        component: Home_02,
-      },
-      {
-        path: '/changeprofile',
-        name: 'home3',
-        component: Home_03,
-      },
-      {
-        path: '/changepassword',
-        name: 'home4',
-        component: Home_04,
-      }
     ],
   },
+  {
+    path: '/mypage',
+    name: 'home2',
+    component: Home_02,
+  },
+  {
+    path: '/changeprofile',
+    name: 'home3',
+    component: Home_03,
+  },
+  {
+    path: '/changepassword',
+    name: 'home4',
+    component: Home_04,
+  }
+
 ]
