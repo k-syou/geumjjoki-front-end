@@ -8,6 +8,17 @@ export interface User {
   updatedAt: string;
 }
 
+export interface UserChangeInfo {
+  nickname: string;
+  profileImage: string;
+}
+
+export interface UserChangePassword {
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+}
+
 export interface LoginRequest {
   email: string;
   password: string;

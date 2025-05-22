@@ -3,11 +3,11 @@
     <TopNavBar title="상세 내역" class="mt-16" />
 
     <!-- 상세 내역 -->
-    <div class="w-full px-3 mt-18">
+    <div v-if="expense" class="w-full px-3 mt-18">
       <!-- 제목 -->
       <div>
-        <h4 class="h4">{{ isLoaded && expense.data.category.name }}</h4>
-        <h3 class="h3">{{ isLoaded && expense.data.amount.toLocaleString() }}원</h3>
+        <h4 class="h4">{{ isLoaded ? (expense.category?.name ?? '미분류') : '' }}</h4>
+        <h3 class="h3">{{ isLoaded && expense.amount.toLocaleString() }}원</h3>
       </div>
       <!-- 구분선 -->
       <div class="w-full px-1 h-13 flex items-center">
@@ -22,7 +22,15 @@
               <h4 class="h4">카테고리 설정</h4>
             </div>
             <div class="flex justify-center items-center" @click="toggleIsCategoryOpen">
-              <h4 class="h4">{{ isLoaded && expense.data.category.parent }}</h4>
+              <h4 class="h4">
+                {{
+                  expense.category
+                    ? (expense.category.parent === null
+                      ? expense.category.name
+                      : expense.category.parent)
+                    : '미분류'
+                }}
+              </h4>
               <BackIcon color="black" class="cursor-pointer inline-block rotate-180" :width="'20'" :height="'24'">
               </BackIcon>
             </div>
@@ -32,7 +40,13 @@
               <h4 class="h4">설명</h4>
             </div>
             <div class="flex justify-center items-center" @click="toggleIsMemoOpen">
-              <h4 class="h4">{{ isLoaded && expense.data.description }}</h4>
+              <h4 class="h4">
+                {{
+                  expense.description.length > 10
+                    ? expense.description.slice(0, 10) + '...'
+                : expense.description
+                }}
+              </h4>
               <BackIcon color="black" class="cursor-pointer inline-block rotate-180" :width="'20'" :height="'24'">
               </BackIcon>
             </div>
@@ -50,7 +64,7 @@
               <h4 class="h4">결제 일시</h4>
             </div>
             <div class="flex justify-center items-center">
-              <h4 class="h4">{{ isLoaded && expense.data.date }}</h4>
+              <h4 class="h4">{{ isLoaded && expense.date }}</h4>
             </div>
           </div>
         </div>
@@ -71,14 +85,15 @@
       </div>
     </div>
     <div class="grid grid-cols-2 px-8 gap-5.5 pt-5.5 pb-19">
-      <div v-for="category in categories" :key="category" class="flex items-center" @click="selectCategory(category)">
+      <div v-for="category in categories" :key="category.category_id" class="flex items-center"
+        @click="selectCategory(category)">
         <div class="bg-gray-500 rounded-full w-8 h-8 flex justify-center items-center">
-          <svg v-if="selectedCategory === category" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+          <svg v-if="selectedCategory === category.category_id" xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h4 class="h4 ml-3">{{ category }}</h4>
+        <h4 class="h4 ml-3">{{ category.name }}</h4>
       </div>
     </div>
   </div>
@@ -97,9 +112,10 @@
       </div>
     </div>
     <div class="w-full p-8">
-      <form class="" @click.prevent="">
+      <form @submit.prevent="saveDescription">
         <div class="mb-10">
-          <textarea class="bg-gray-50 border border-gray-600 text-cocoa-600 rounded-t-lg w-full p-2.5 h-30 resize-none"
+          <textarea v-model="tempDescription"
+            class="bg-gray-50 border border-gray-600 text-cocoa-600 rounded-t-lg w-full p-2.5 h-30 resize-none"
             rows="5"></textarea>
         </div>
         <button type="submit"
@@ -111,59 +127,82 @@
   </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import TopNavBar from '@/components/navbar/TopNavBar.vue'
 import BackIcon from '@/components/common/icons/BackIcon.vue'
 import XIcon from '@/components/common/icons/XIcon.vue'
 import expenseService from '@/services/api/expenseService'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import type { Category, Expense } from '@/types/expense'
+import { useCategoryStore } from '@/stores/categoryStore'
 
 const route = useRoute()
 const expenseId = Number(route.params.id)
 
-const expense = ref<any>(null)
+const expense = ref<Expense | null>(null)
 const isLoaded = ref(false)
 
+const categoryStore = useCategoryStore()
+const categories = computed(() => categoryStore.rootCategories || [])
+const selectedCategory = ref<number | null>(null)
 
 onMounted(async () => {
   try {
+    await categoryStore.fetchRootCategories()
     const response = await expenseService.getExpenseDetail(expenseId)
     expense.value = response
+    selectedCategory.value = response.category?.category_id ?? null
   } finally {
     isLoaded.value = true
   }
 })
 
-const menus = [
-  { name: '분석', to: 'analysis' },
-  { name: '현황', to: 'status' },
-]
+const selectCategory = async (category: Category) => {
+  if (selectedCategory.value === category.category_id) return
 
-const categories = [
-  "음식·유흥", "주거·통신", "생활·쇼핑", "뷰티·미용", "취미·여가", "교통·차량", "기타"
-]
+  try {
+    await expenseService.updateExpenseCategory(expenseId, category.category_id)
+    selectedCategory.value = category.category_id
 
-const selectedCategory = ref(null)
+    if (expense.value) {
+      expense.value.category = category
+    }
 
-const selectCategory = category => {
-  if (selectedCategory.value === category) {
-    selectedCategory.value = null
-    return
+    isCategoryOpen.value = false
+  } catch (err) {
+    console.error('카테고리 변경 실패', err)
   }
-  selectedCategory.value = category
 }
 
 const isCategoryOpen = ref(false)
 const isMemoOpen = ref(false)
+const tempDescription = ref('')
+
 
 const toggleIsCategoryOpen = () => {
   isCategoryOpen.value = !isCategoryOpen.value
 }
 const toggleIsMemoOpen = () => {
+  if (!isMemoOpen.value && expense.value) {
+    tempDescription.value = expense.value.description
+  }
   isMemoOpen.value = !isMemoOpen.value
 }
 
+const saveDescription = async () => {
+  if (!expense.value) return
+  try {
+    await expenseService.updateExpenseDescription(expense.value.expense_id, tempDescription.value)
+    expense.value = {
+      ...expense.value,
+      description: tempDescription.value.trim(),
+    }
+    isMemoOpen.value = false
+  } catch (err) {
+    console.error('설명 저장 실패:', err)
+  }
+}
 </script>
 
 <style scoped></style>

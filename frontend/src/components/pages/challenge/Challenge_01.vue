@@ -74,7 +74,7 @@ import BackIcon from '@/components/common/icons/BackIcon.vue';
 import StarImg from '@/assets/images/star.png'
 // import 'swiper/css/pagination';
 // import 'swiper/css/navigation';
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 
