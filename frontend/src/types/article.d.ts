@@ -49,6 +49,10 @@ export interface createCommentRequest {
 // 댓글 response
 export interface ParentComment extends Comment {
     replies: Comment[]
+    isView: {
+        type: boolean
+        default: false
+    }
     
 }
 

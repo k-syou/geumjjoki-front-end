@@ -8,14 +8,14 @@
           <WriteIcon />
           <h3>수정</h3>
         </div>
-        <RightArrow class ="cursor-pointer"width="16" height="16" @click="goToUpdate" />
+        <RightArrow class="cursor-pointer" width="16" height="16" @click="goToUpdate" />
       </div>
       <div class="w-full flex items-center justify-between">
         <div class="flex gap-4">
           <TrashIcon />
           <h3>삭제</h3>
         </div>
-        <RightArrow width="16" height="16" class="cursor-pointer" @click="handleDeleteComment"/>
+        <RightArrow width="16" height="16" class="cursor-pointer" @click="handleDeleteComment" />
       </div>
     </div>
   </div>
@@ -41,10 +41,8 @@ const goToUpdate = () => {
 };
 
 const handleDeleteComment = async () => {
-    // 삭제 요청
-    emit('delete')
-    // await useArticle.deleteComment(props.articleId,props.commentId)
-  
+  // 삭제 요청
+  emit('delete', props.articleId, props.commentId)
 }
 
 
