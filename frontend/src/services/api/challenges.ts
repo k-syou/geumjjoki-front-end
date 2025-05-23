@@ -3,21 +3,31 @@ import type { Challenge, UserChallenge, ChallengeDetail } from "@/types/challeng
 
 export const challengesService = {
   // 전체 챌린지 목록
-  fetchChallengeList: async (): Promise<Challenge[]> => {
-    const response = await apiClient.get('/challenges/?size=10000')
-    return response.data.data as Challenge[]
+  fetchChallengeList: async (size: number): Promise<Challenge[]> => {
+    const params = { size: size}
+    const response = await apiClient.get('/challenges/', {
+      params: params
+    })
+    return response.data
   },
 
   // 사용자 개인 챌린지
-  fetchPersonalChallenges: async (type: number, userId: number): Promise<UserChallenge[]> => {
-    const response = await apiClient.get(`/challenges/personal?type=${type}&user=${userId}`)
-    return response.data.data as UserChallenge[]
+  fetchPersonalChallenges: async (type?: number) => {
+    const params = {
+      type: type,
+    }
+    const response = await apiClient.get('/challenges/personal/', {
+      params: params
+    })
+    // return response.data.data as UserChallenge[]
+    return response.data
   },
 
   // 챌린지 상세 정보
-  fetchChallengeDetail: async (id: number): Promise<ChallengeDetail> => {
+  fetchChallengeDetail: async (id: number) => {
     const response = await apiClient.get(`/challenges/${id}/`)
-    return response.data.data as ChallengeDetail
+    // return response.data.data as ChallengeDetail
+    return response.data
   }
 }
 

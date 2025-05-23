@@ -16,7 +16,7 @@
       <div class="pt-5 pb-2">
         <div class="flex justify-between h-9">
           <h4 class="text-cocoa-500 font-extrabold">{{ product.name }}</h4>
-          <h4 class="text-cocoa-500 font-extrabold">{{ product.cost }}P</h4>
+          <h4 class="text-cocoa-500 font-extrabold">{{ product.point }}P</h4>
         </div>
 
         <!-- 상품 설명 -->

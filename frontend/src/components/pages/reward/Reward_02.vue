@@ -48,7 +48,7 @@
           <div class="text-left">
             <p class="h4 font-semibold text-cocoa-600 pb-2">{{ item.reward.name }}</p>
             <p class="caption text-gray-600 pb-2">{{ formatDate(item.redeemed_at) }}</p>
-            <p class="caption text-gray-600 font-semibold">{{ item.reward.cost }}P</p>
+            <p class="caption text-gray-600 font-semibold">{{ item.reward.point }}P</p>
           </div>
         </div>
 

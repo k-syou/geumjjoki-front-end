@@ -1,78 +1,15 @@
-import { ref, onMounted, computed } from 'vue'
-import challengesService from '@/services/api/challenges'
-import { useUserStore } from '@/stores/userStore'
-import type { Challenge, UserChallenge } from '@/types/challenges'
+import ChallengesService from "@/services/api/challenges"
+import type {  } from "@/types/challenges"
 
-// Challenge + UserChallenge 통합 타입
-type EnrichedUserChallenge = UserChallenge & Partial<Challenge>
+const useChallengesComposable = () => {
+  // 사용자가 진행 했던 모든 리스트를 받고
+  // 성공, 실패한 데이터만 필터링 해서 반환
 
-export default function useChallenges() {
-  const challenges = ref<Challenge[]>([])
-  const ongoingChallenges = ref<UserChallenge[]>([])
-  const successChallenges = ref<UserChallenge[]>([])
-  const failedChallenges = ref<UserChallenge[]>([])
+  // 키값 받아서 상세데이터를 반환
 
-  const isLoading = ref(false)
-  const error = ref<unknown>(null)
-
-  const userStore = useUserStore()
-  const userId = userStore.user?.id || 1
-
-  // Challenge 정보 덧붙이기
-  const enrichUserChallenges = (list: UserChallenge[]): EnrichedUserChallenge[] => {
-    return list.map((uc) => {
-      const matched = challenges.value.find(c => c.challenge_id === uc.challenge_id)
-      return {
-        ...uc,
-        ...matched,
-      }
-    })
-  }
-
-  const enrichedOngoing = computed(() => enrichUserChallenges(ongoingChallenges.value))
-  const enrichedSuccess = computed(() => enrichUserChallenges(successChallenges.value))
-  const enrichedFailed = computed(() => enrichUserChallenges(failedChallenges.value))
-
-  const getUserChallengeById = (challengeId: number): EnrichedUserChallenge | null => {
-    const all = [...enrichedOngoing.value, ...enrichedSuccess.value, ...enrichedFailed.value]
-    return all.find(item => item.challenge_id === challengeId) || null
-  }
-
-  const fetchChallenges = async () => {
-    isLoading.value = true
-    error.value = null
-    try {
-      challenges.value = await challengesService.fetchChallengeList()
-      const [ongoing, success, failed] = await Promise.all([
-        challengesService.fetchPersonalChallenges(0, userId),
-        challengesService.fetchPersonalChallenges(1, userId),
-        challengesService.fetchPersonalChallenges(2, userId),
-      ])
-
-      ongoingChallenges.value = ongoing
-      successChallenges.value = success
-      failedChallenges.value = failed
-    } catch (err) {
-      error.value = err
-      console.error('챌린지 불러오기 실패:', err)
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  onMounted(fetchChallenges)
-
-  return {
-    challenges,
-    ongoingChallenges,
-    successChallenges,
-    failedChallenges,
-    enrichedOngoing,
-    enrichedSuccess,
-    enrichedFailed,
-    isLoading,
-    error,
-    fetchChallenges,
-    getUserChallengeById,
-  }
+  // 전체 챌린지 중에 size, page 인수로 받아서 + 내가 안하고 있는 정보
+  
+  return {  }
 }
+
+export default useChallengesComposable

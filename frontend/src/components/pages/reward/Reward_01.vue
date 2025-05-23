@@ -24,11 +24,18 @@
 
     <!-- 카테고리 탭 -->
     <div class="w-full text-center justify-between flex mt-5 px-7.5 text-gray-600">
-      <h4 class="h4 w-15 h-7 bg-cocoa-100 text-brown-600 px-2.5 rounded-lg">ALL</h4>
-      <h4 class="h4 w-20">상품권</h4>
-      <h4 class="h4 w-20">금융상품</h4>
-      <h4 class="h4 w-20">카페</h4>
-      <h4 class="h4 w-20">음식</h4>
+      <h4
+        v-for="category in categories"
+        :key="category"
+        class="h4 w-20 cursor-pointer rounded-lg px-2.5"
+        :class="{
+          'bg-cocoa-100 text-brown-600': selectedCategory === category,
+          'text-gray-600': selectedCategory !== category
+        }"
+        @click="filterByCategory(category)"
+      >
+        {{ category }}
+      </h4>
     </div>
 
     <!-- 정렬 옵션 -->
@@ -41,7 +48,7 @@
     <div class="mt-8 px-7 max-h-[520px] overflow-y-auto pb-6 scrollbar-hide">
       <div class="grid grid-cols-2 gap-x-16 gap-y-4">
         <div
-          v-for="item in list"
+          v-for="item in filteredList"
           :key="item.reward_id"
           @click="selectedProduct = item"
           class="cursor-pointer"
@@ -53,9 +60,9 @@
 
           <!-- 텍스트 -->
           <div class="h-9.5">
-            <p class="text-xs font-bold">카테고리</p>
+            <p class="text-xs font-bold">{{ item.category }}</p>
             <p class="text-xs font-bold">{{ item.name }}</p>
-            <p class="text-xs font-bold">{{ item.cost }}P</p>
+            <p class="text-xs font-bold">{{ item.point }}P</p>
           </div>
         </div>
       </div>
@@ -81,19 +88,33 @@ import type { Reward } from '@/types/rewards'
 import { useUserStore } from '@/stores/userStore'
 import Gifticon3 from '@/assets/images/gifticon3.png'
 
-const userStore = useUserStore()
 const router = useRouter()
+const userStore = useUserStore()
+const { fetchRewardList } = useRewardsComposable()
 
 const userData = computed(() => (userStore.user as any)?.data)
 
-const selectedProduct = ref<Reward | null>(null)
 const list = ref<Reward[]>([])
+const selectedProduct = ref<Reward | null>(null)
 
-const { fetchRewardList } = useRewardsComposable()
+// 카테고리 관련 상태
+const categories = ['ALL', '상품권', '금융상품', '카페', '음식']
+const selectedCategory = ref('ALL')
+
+const filterByCategory = (category: string) => {
+  selectedCategory.value = category
+}
+
+const filteredList = computed(() => {
+  if (selectedCategory.value === 'ALL') return list.value
+  return list.value.filter(item => item.category === selectedCategory.value)
+})
 
 const goToPurchaseHistory = () => {
   router.push({ name: 'reward_02' })
 }
+
+const goBack = () => router.back()
 
 onMounted(async () => {
   try {
@@ -102,9 +123,6 @@ onMounted(async () => {
     console.error('리워드 가져오기 실패:', error)
   }
 })
-
-const goBack = () => router.back()
-
 </script>
 
 <style scoped>
