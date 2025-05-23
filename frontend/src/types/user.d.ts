@@ -43,7 +43,7 @@ export interface UserState {
 export interface UserProfileResponse {
   level: number;
   exp: number;
-  mileage: number;
+  point: number;
   averageIncome?: number;
 }
 

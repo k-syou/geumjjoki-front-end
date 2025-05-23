@@ -19,7 +19,7 @@
     <!-- 포인트 -->
     <div class="self-start flex items-center justify-between h-7 w-30 bg-gold-200 rounded-full px-2.5 py-1 ml-6 mt-5">
       <img src="@/assets/images/star.png" alt="별" class="w-4.5 h-4.5" />
-      <h4 class="h4">{{ userData?.user_profile?.mileage ?? 0 }}P</h4>
+      <h4 class="h4">{{ userData?.user_profile?.point ?? 0 }}P</h4>
     </div>
 
     <!-- 카테고리 탭 -->
@@ -92,8 +92,8 @@ const router = useRouter()
 const userStore = useUserStore()
 const { fetchRewardList } = useRewardsComposable()
 
-const userData = computed(() => (userStore.user as any)?.data)
-
+const userData = computed(() => (userStore.user))
+console.log('userData', userData.value)
 const list = ref<Reward[]>([])
 const selectedProduct = ref<Reward | null>(null)
 

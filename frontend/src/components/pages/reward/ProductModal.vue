@@ -45,15 +45,20 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import type { Reward } from '@/types/rewards'
-
+import useRewardsComposable from '@/composables/useRewards'
 const router = useRouter()
+const useRewards = useRewardsComposable()
 
 const { product } = defineProps<{
   product: Reward
 }>()
 
-const handlePurchase = () => {
-  alert('미구현 기능입니다.');
-  router.push({ name: 'reward_02' })
+const handlePurchase = async () => {
+  const data = await useRewards.purchaseReward(product.reward_id)
+  if (data.code === 400) {
+    alert(data.message)
+  } else {
+    router.push({ name: 'reward_02' })
+  }
 }
 </script>
