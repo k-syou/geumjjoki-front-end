@@ -6,7 +6,7 @@
   >
     <!-- 모달 박스 -->
     <div class="bg-gray-200 rounded-3xl w-90 h-170 px-10 pt-14.5 shadow-xl text-center">
-      
+
       <!-- 상품명 영역 (이미지 대신 텍스트) -->
       <div class="bg-gray-400 rounded-md w-full h-79.5 flex items-center justify-center border border-gray-600">
         <h3 class="h3 text-cocoa-500">제품 이미지</h3>
@@ -34,7 +34,7 @@
           <h3 class="h3 text-cocoa-500">닫기</h3>
         </button>
 
-        <button class="bg-gold-400 w-45 h-17 rounded-lg" @click="showAlert">
+        <button class="bg-gold-400 w-45 h-17 rounded-lg" @click="handlePurchase">
           <h3 class="h3 text-cocoa-500">구매하기</h3>
         </button>
       </div>
@@ -48,11 +48,11 @@ import type { Reward } from '@/types/rewards'
 
 const router = useRouter()
 
-const props = defineProps<{
+const { product } = defineProps<{
   product: Reward
 }>()
 
-const showAlert = () => {
+const handlePurchase = () => {
   alert('미구현 기능입니다.');
   router.push({ name: 'reward_02' })
 }

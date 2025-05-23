@@ -47,3 +47,10 @@ export interface UserProfileResponse {
   averageIncome?: number;
 }
 
+export interface SignupRequest {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  nickname: string;
+}
